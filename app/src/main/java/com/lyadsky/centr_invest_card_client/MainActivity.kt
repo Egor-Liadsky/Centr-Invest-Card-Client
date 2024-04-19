@@ -23,18 +23,29 @@ import com.lyadsky.centr_invest_card_client.ui.theme.CentrInvestCardClientTheme
 import java.nio.charset.Charset
 import kotlin.experimental.and
 
+import androidx.activity.enableEdgeToEdge
+import com.arkivanov.decompose.defaultComponentContext
+import com.lyadsky.centr_invest_card_client.components.root.RootComponentImpl
+import com.lyadsky.centr_invest_card_client.ui.root.RootScreen
+
+
 class MainActivity : ComponentActivity() {
     private lateinit var nfcAdapter: NfcAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
 //        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         Log.d("m", "Nfc supported $nfcAdapter")
         Log.d("m", "Nfc enabled " + (nfcAdapter.isEnabled).toString())
 
+        val rootComponent = RootComponentImpl(componentContext = defaultComponentContext())
+
+        enableEdgeToEdge()
+
         setContent {
-            Greeting(name = "hello world")
+            RootScreen(component = rootComponent)
         }
     }
 
@@ -65,22 +76,5 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CentrInvestCardClientTheme {
-        Greeting("Android")
     }
 }

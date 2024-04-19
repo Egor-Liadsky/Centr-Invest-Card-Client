@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    id("kotlinx-serialization")
 }
 
 android {
@@ -28,6 +29,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+//            buildConfigField("STRING", "BASE_URL", "https://google.com/")
         }
     }
     compileOptions {
@@ -41,7 +44,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
     packaging {
         resources {
@@ -52,19 +55,31 @@ android {
 
 dependencies {
 
+    // Navigation
+    implementation(libs.decompose)
+    implementation(libs.decompose.compose)
+    implementation(libs.essenty.lifecycle)
+
+    // DI
+    implementation(libs.koin.compose)
+
+    // Network
+    implementation(libs.bundles.ktor.common)
+
+    // Kotlinx
+    implementation(libs.ktor.client.android)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.serialization.json)
+
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
     implementation(libs.ui.graphics)
-    implementation(libs.ui.tooling.preview)
-    implementation(libs.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation(libs.material)
+//    implementation(libs.material3)
+    implementation(libs.compose.foundation)
     androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
-    debugImplementation(libs.ui.test.manifest)
 }

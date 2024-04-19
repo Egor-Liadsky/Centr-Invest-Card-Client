@@ -2,10 +2,40 @@ package com.lyadsky.centr_invest_card_client.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+object Color {
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+    object Base {
+        val white = Color(0xFFFFFFFF)
+        val black = Color(0xFF2A2F33)
+        val gray = Color(0xFFDBDBDB)
+        val purplePrimary = Color(0xFF8338EC)
+    }
+
+    object BottomBar {
+        val selectedNavigationItem = Color(0xFFdf2a1e)
+        val unselectedNavigationItem = Color(0xFF9E9C9F)
+        val background = Color(0xFFFFFFFF)
+        val stroke = Color(0xFFEDEDED)
+    }
+
+    object TextField {
+        val placeholder = Color(0xFF9E9C9F)
+        val input = Color(0xFF2A2F33)
+        val background = Color(0x05395673)
+    }
+
+    object SearchBanner {
+        val defaultText = Color(0xFF2A2F33)
+        val highlightText = Color(0xFF8338EC)
+        val background = Color(0xFFE7DFFF)
+    }
+
+    object Checkbox {
+        val checked = Color(0xFF7E2EFF)
+        val unchecked = Color(0xFF7E2EFF)
+    }
+
+    object Divider {
+        val background = Color(0xFFDBDBDB)
+    }
+}
