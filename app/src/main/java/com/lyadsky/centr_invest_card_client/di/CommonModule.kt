@@ -1,7 +1,10 @@
 package com.lyadsky.centr_invest_card_client.di
 
+import com.lyadsky.centr_invest_card_client.data.repository.welcome.WelcomeRepository
+import com.lyadsky.centr_invest_card_client.data.storage.Storage
 import com.lyadsky.centr_invest_card_client.utils.ErrorService
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
@@ -24,7 +27,7 @@ val commonModule = module {
         }
     }
     single {
-        HttpClient(get()) {
+        HttpClient(OkHttp) {
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
@@ -37,7 +40,11 @@ val commonModule = module {
     }
 
     // Repositories
+    single { WelcomeRepository() }
 
     // Services
     single { ErrorService() }
+
+    // Storage
+    single { Storage(get()) }
 }

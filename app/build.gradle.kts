@@ -55,6 +55,10 @@ android {
 
 dependencies {
 
+    // Storage
+    implementation(libs.androidx.datastore)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
     // Navigation
     implementation(libs.decompose)
     implementation(libs.decompose.compose)
@@ -65,6 +69,8 @@ dependencies {
 
     // Network
     implementation(libs.bundles.ktor.common)
+    implementation(libs.ktor.client.android)
+    implementation("io.ktor:ktor-client-okhttp:2.2.2")
 
     // Kotlinx
     implementation(libs.ktor.client.android)

@@ -50,7 +50,7 @@ abstract class BaseRepository : KoinComponent {
     ): String {
         val response: HttpResponse
         try {
-            response = httpClient.request("BuildConfig.BASE_URL") {
+            response = httpClient.request("http://45.155.207.232:1290/api/") {
                 url {
                     appendPathSegments(path)
                     parameters?.forEach { this.parameters.append(it.key, it.value) }

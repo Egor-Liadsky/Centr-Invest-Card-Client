@@ -11,12 +11,24 @@ import com.arkivanov.decompose.value.Value
 import com.lyadsky.centr_invest_card_client.components.BaseComponent
 import com.lyadsky.centr_invest_card_client.components.bottomNavigation.BottomNavigationComponentComponentImpl
 import com.lyadsky.centr_invest_card_client.components.welcome.WelcomeComponentImpl
+import com.lyadsky.centr_invest_card_client.data.storage.Storage
+import kotlinx.coroutines.launch
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class RootComponentImpl(
     componentContext: ComponentContext
 ) : BaseComponent<RootState>(componentContext, RootState()), RootComponent, KoinComponent {
+
+    private val storage: Storage by inject()
+    private var isAuth: Boolean? = null
+
+    init {
+        scope.launch {
+            isAuth = storage.getToken() == null
+        }
+    }
 
     private val navigation = StackNavigation<Config>()
 

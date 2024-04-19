@@ -15,6 +15,7 @@ ktor = "2.3.10"
 essenty = "2.0.0-alpha07"
 material3 = "1.2.1"
 material = "1.6.5"
+protoDataStore = "1.0.0"
 
 
 [libraries]
@@ -33,12 +34,13 @@ material3 = { module = "androidx.compose.material3:material3", version.ref = "ma
 material = { module = "androidx.compose.material:material", version.ref = "material" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 
+# Storage
+androidx-datastore = { group = "androidx.datastore", name = "datastore", version.ref = "protoDataStore" }
 
 # Decompose
 decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
 decompose-compose = { group = "com.arkivanov.decompose", name = "extensions-compose", version.ref = "decompose" }
 essenty-lifecycle = { group = "com.arkivanov.essenty", name = "lifecycle", version.ref = "essenty" }
-
 
 # Kotlin
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }

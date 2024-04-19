@@ -3,7 +3,11 @@ package com.lyadsky.centr_invest_card_client.components.welcome.registration
 import com.arkivanov.decompose.ComponentContext
 import com.lyadsky.centr_invest_card_client.components.BaseComponent
 import com.lyadsky.centr_invest_card_client.components.welcome.auth.AuthState
+import com.lyadsky.centr_invest_card_client.data.model.UserDTOReceive
+import com.lyadsky.centr_invest_card_client.data.repository.welcome.WelcomeRepository
 import com.lyadsky.centr_invest_card_client.utils.ErrorService
+import com.lyadsky.centr_invest_card_client.utils.exceptionHandleable
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -16,6 +20,7 @@ class RegistrationComponentImpl(
     KoinComponent {
 
     private val errorService: ErrorService by inject()
+    private val welcomeRepository: WelcomeRepository by inject()
 
     override fun firstNameTextFieldValueChanged(value: String) {
         viewState = viewState.copy(firstNameTextFieldValue = value)
@@ -46,6 +51,25 @@ class RegistrationComponentImpl(
     }
 
     override fun onPincodeClick() {
-        navigateToPincode()
+        scope.launch(Dispatchers.IO) {
+            exceptionHandleable(
+                executionBlock = {
+                    val response = welcomeRepository.registerUser(
+                        UserDTOReceive(
+                            username = viewState.loginTextFieldValue,
+                            password = viewState.passwordTextFieldValue,
+                            name = viewState.firstNameTextFieldValue,
+                            family = viewState.lastNameTextFieldValue,
+                            two_name = viewState.surnameTextFieldValue,
+                        )
+                    )
+                    println("TAGTAG   $response")
+                    navigateToPincode()
+                },
+                failureBlock = { exception: Throwable ->
+                    errorService.showError("Введите корректные данные")
+                }
+            )
+        }
     }
 }
