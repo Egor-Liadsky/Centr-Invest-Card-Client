@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    Bottom navigation view-->
+    <string name="bottom_navigation_view_home">Главная</string>
+    <string name="bottom_navigation_view_assistant">Помощник</string>
+    <string name="bottom_navigation_view_event">Обучение</string>
+    <string name="bottom_navigation_view_profile">Профиль</string>
+
+</resources>

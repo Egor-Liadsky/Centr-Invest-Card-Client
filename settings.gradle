@@ -1,0 +1,65 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+rootProject.name = "EventApp"
+include(":app")
+include(":feature")
+include("core_navigation")
+include(":core_view")
+include(":core_data")
+
+//Account
+include(":feature:account")
+include ':feature:account:api'
+include ':feature:account:impl'
+
+//Home
+include(":feature:home")
+include ':feature:home:api'
+include ':feature:home:impl'
+
+//Event
+include(":feature:event")
+include ':feature:event:api'
+include ':feature:event:impl'
+
+//Profile
+include(":feature:profile")
+include ':feature:profile:api'
+include ':feature:profile:impl'
+
+//Settings
+include(":feature:settings")
+include ':feature:settings:api'
+include ':feature:settings:impl'
+
+//Assistant
+include(":feature:assistant")
+include ':feature:assistant:api'
+include ':feature:assistant:impl'
+
+//Speaker
+include(":feature:speaker")
+include ':feature:speaker:api'
+include ':feature:speaker:impl'
+
+//Payment
+include(":feature:payment")
+include ':feature:payment:api'
+include ':feature:payment:impl'
+
+//Detail Card
+include ':feature:detail_card'
+include ':feature:detail_card:api'
+include ':feature:detail_card:impl'
