@@ -1,17 +1,15 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
-    id("kotlinx-serialization")
+    id("com.android.application")
+    kotlin("android")
 }
 
 android {
-    namespace = "com.lyadsky.centr_invest_card_client"
+    namespace = "com.turtleteam.eventapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.lyadsky.centr_invest_card_client"
-        minSdk = 24
+        applicationId = "com.turtleteam.eventapp"
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -21,16 +19,15 @@ android {
             useSupportLibrary = true
         }
     }
-
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.3"
+    }
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-
-//            buildConfigField("STRING", "BASE_URL", "https://google.com/")
         }
     }
     compileOptions {
@@ -40,13 +37,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.8"
-    }
-    packaging {
+    packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -55,31 +46,50 @@ android {
 
 dependencies {
 
-    // Navigation
-    implementation(libs.decompose)
-    implementation(libs.decompose.compose)
-    implementation(libs.essenty.lifecycle)
+    implementation(project(Modules.core_navigation))
+    implementation(project(Modules.core_view))
+    implementation(project(Modules.core_data))
 
-    // DI
-    implementation(libs.koin.compose)
+    implementation(project(":feature:account:api"))
+    implementation(project(":feature:account:impl"))
 
-    // Network
-    implementation(libs.bundles.ktor.common)
+    implementation(project(":feature:home:api"))
+    implementation(project(":feature:home:impl"))
 
-    // Kotlinx
-    implementation(libs.ktor.client.android)
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.serialization.json)
+    implementation(project(":feature:event:api"))
+    implementation(project(":feature:event:impl"))
 
-    implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.activity.compose)
-    implementation(platform(libs.compose.bom))
-    implementation(libs.ui)
-    implementation(libs.ui.graphics)
-    implementation(libs.material)
-//    implementation(libs.material3)
-    implementation(libs.compose.foundation)
-    androidTestImplementation(platform(libs.compose.bom))
-    debugImplementation(libs.ui.tooling)
+    implementation(project(":feature:profile:api"))
+    implementation(project(":feature:profile:impl"))
+
+
+    implementation(project(":feature:assistant:api"))
+    implementation(project(":feature:assistant:impl"))
+
+    implementation("androidx.compose.material:material:1.5.4")
+
+    implementation(project(":feature:settings:api"))
+    implementation(project(":feature:settings:impl"))
+
+    implementation(project(":feature:speaker:api"))
+    implementation(project(":feature:speaker:impl"))
+
+    implementation(project(":feature:payment:api"))
+    implementation(project(":feature:payment:impl"))
+
+    implementation(project(":feature:detail_card:api"))
+    implementation(project(":feature:detail_card:impl"))
+
+    implementation(Dependencies.Data.ktorClient)
+    implementation(Dependencies.JetpackCompose.runtime)
+    implementation(Dependencies.JetpackCompose.navigation)
+    implementation(Dependencies.JetpackCompose.activityCompose)
+    implementation(Dependencies.JetpackCompose.material)
+    implementation(Dependencies.DI.koin)
+    implementation(Dependencies.DI.koinAndroid)
+    implementation(Dependencies.Data.ktorJson)
+    implementation(Dependencies.Data.ktorCore)
+    implementation(Dependencies.Data.ktorLogging)
+    implementation(Dependencies.Data.ktorContentNegotiation)
+    implementation(Dependencies.Kotlin.kotlinxSerialization)
 }
