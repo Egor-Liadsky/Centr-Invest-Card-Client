@@ -1,4 +1,4 @@
-package utils
+package com.lyadsky.centr_invest_card_client.utils
 
 sealed class LoadingState {
     data object Loading: LoadingState()

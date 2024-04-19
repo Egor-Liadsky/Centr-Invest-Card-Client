@@ -1,4 +1,4 @@
-package ui.bottomNavigation
+package com.lyadsky.centr_invest_card_client.ui.bottomNavigation
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -8,23 +8,19 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.lyadsky.peeker.android.ui.theme.Color
-import components.bottomNavigation.BottomNavigationComponent
-import components.bottomNavigation.BottomNavigationComponent.Child
-import components.bottomNavigation.MainNavTab
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.painterResource
-import redoskiosk.composeapp.generated.resources.Res
-import redoskiosk.composeapp.generated.resources.ic_configuration
-import redoskiosk.composeapp.generated.resources.ic_programs
-import redoskiosk.composeapp.generated.resources.ic_users
+import com.lyadsky.centr_invest_card_client.components.bottomNavigation.BottomNavigationComponent
+import com.lyadsky.centr_invest_card_client.components.bottomNavigation.BottomNavigationComponent.Child
+import com.lyadsky.centr_invest_card_client.components.bottomNavigation.MainNavTab
+import com.lyadsky.centr_invest_card_client.ui.theme.Color
 
-@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun BottomBar(component: BottomNavigationComponent, modifier: Modifier = Modifier) {
 
@@ -45,51 +41,35 @@ fun BottomBar(component: BottomNavigationComponent, modifier: Modifier = Modifie
     ) {
 
         BottomNavigationItem(
-            selected = activeComponent is Child.ProgramsChild,
-            onClick = { component.onTabClicked(MainNavTab.PROGRAMS) },
+            selected = activeComponent is Child.HomeChild,
+            onClick = { component.onTabClicked(MainNavTab.HOME) },
             selectedContentColor = Color.BottomBar.selectedNavigationItem,
             unselectedContentColor = Color.BottomBar.unselectedNavigationItem,
             icon = {
                 Icon(
-                    painter = painterResource(Res.drawable.ic_programs),
+                    imageVector = Icons.Default.Home,
                     contentDescription = null,
                     modifier = Modifier.size(24.dp)
                 )
             },
             label = {
-                Text("Программы")
+                Text("Главная")
             }
         )
         BottomNavigationItem(
-            selected = activeComponent is Child.UsersChild,
-            onClick = { component.onTabClicked(MainNavTab.USERS) },
+            selected = activeComponent is Child.SettingsChild,
+            onClick = { component.onTabClicked(MainNavTab.SETTINGS) },
             selectedContentColor = Color.BottomBar.selectedNavigationItem,
             unselectedContentColor = Color.BottomBar.unselectedNavigationItem,
             icon = {
                 Icon(
-                    painter = painterResource(Res.drawable.ic_users),
+                    imageVector = Icons.Default.Settings,
                     contentDescription = "Пользователи",
                     Modifier.size(24.dp)
                 )
             },
             label = {
-                Text("Пользователи")
-            }
-        )
-        BottomNavigationItem(
-            selected = activeComponent is Child.ConfigurationChild,
-            onClick = { component.onTabClicked(MainNavTab.CONFIGURATION) },
-            selectedContentColor = Color.BottomBar.selectedNavigationItem,
-            unselectedContentColor = Color.BottomBar.unselectedNavigationItem,
-            icon = {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_configuration),
-                    contentDescription = "Конфигурация",
-                    Modifier.size(24.dp)
-                )
-            },
-            label = {
-                Text("Конфигурация")
+                Text("Настройки")
             }
         )
     }

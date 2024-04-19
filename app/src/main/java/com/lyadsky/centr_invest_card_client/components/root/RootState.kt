@@ -1,6 +1,6 @@
-package components.root
+package com.lyadsky.centr_invest_card_client.components.root
 
-import utils.LoadingState
+import com.lyadsky.centr_invest_card_client.utils.LoadingState
 
 data class RootState(
 

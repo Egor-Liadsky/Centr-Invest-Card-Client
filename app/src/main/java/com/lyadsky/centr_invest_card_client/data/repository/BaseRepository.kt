@@ -1,10 +1,9 @@
-package data.repository
+package com.lyadsky.centr_invest_card_client.data.repository
 
-import com.turtleteam.red_os_kiosk.BuildKonfig
-import errors.AppError
-import errors.Code
-import exceptions.ServerException
-import exceptions.SocketException
+import com.lyadsky.centr_invest_card_client.errors.AppError
+import com.lyadsky.centr_invest_card_client.errors.Code
+import com.lyadsky.centr_invest_card_client.exceptions.ServerException
+import com.lyadsky.centr_invest_card_client.exceptions.SocketException
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -51,7 +50,7 @@ abstract class BaseRepository : KoinComponent {
     ): String {
         val response: HttpResponse
         try {
-            response = httpClient.request(BuildKonfig.BASE_URL) {
+            response = httpClient.request("BuildConfig.BASE_URL") {
                 url {
                     appendPathSegments(path)
                     parameters?.forEach { this.parameters.append(it.key, it.value) }

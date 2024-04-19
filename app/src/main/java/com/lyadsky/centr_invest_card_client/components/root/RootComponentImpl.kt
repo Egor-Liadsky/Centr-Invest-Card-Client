@@ -1,4 +1,4 @@
-package components.root
+package com.lyadsky.centr_invest_card_client.components.root
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -6,8 +6,8 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.Value
-import components.BaseComponent
-import components.bottomNavigation.BottomNavigationComponentComponentImpl
+import com.lyadsky.centr_invest_card_client.components.BaseComponent
+import com.lyadsky.centr_invest_card_client.components.bottomNavigation.BottomNavigationComponentComponentImpl
 import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 

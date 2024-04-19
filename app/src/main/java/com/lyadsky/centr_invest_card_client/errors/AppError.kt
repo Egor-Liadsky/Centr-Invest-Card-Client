@@ -1,4 +1,4 @@
-package errors
+package com.lyadsky.centr_invest_card_client.errors
 
 data class AppError(
     val code: Code = Code.INTERNAL_ERROR,

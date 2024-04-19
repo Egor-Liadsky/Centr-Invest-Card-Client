@@ -1,4 +1,4 @@
-package com.lyadsky.peeker.android.ui.theme
+package com.lyadsky.centr_invest_card_client.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

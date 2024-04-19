@@ -1,4 +1,4 @@
-package utils
+package com.lyadsky.centr_invest_card_client.utils
 
 import kotlin.coroutines.cancellation.CancellationException
 

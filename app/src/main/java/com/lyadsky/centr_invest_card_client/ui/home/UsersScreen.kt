@@ -1,15 +1,15 @@
-package ui.programs
+package com.lyadsky.centr_invest_card_client.ui.home
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import components.programs.ProgramsComponent
+import com.lyadsky.centr_invest_card_client.components.home.HomeComponent
 
 @Composable
-fun ProgramsScreen(component: ProgramsComponent) {
+fun HomeScreen(component: HomeComponent) {
 
     val state by component.viewStates.subscribeAsState()
 
-    Text("Programs Screen")
+    Text("Home Screen")
 }

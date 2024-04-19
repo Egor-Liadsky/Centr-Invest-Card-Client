@@ -1,4 +1,4 @@
-package components.bottomNavigation
+package com.lyadsky.centr_invest_card_client.components.bottomNavigation
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -7,10 +7,9 @@ import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.popTo
 import com.arkivanov.decompose.value.Value
-import components.bottomNavigation.BottomNavigationComponent.Child
-import components.configuration.ConfigurationComponentImpl
-import components.programs.ProgramsComponentImpl
-import components.users.UsersComponentImpl
+import com.lyadsky.centr_invest_card_client.components.bottomNavigation.BottomNavigationComponent.Child
+import com.lyadsky.centr_invest_card_client.components.home.HomeComponentImpl
+import com.lyadsky.centr_invest_card_client.components.settings.SettingsComponentImpl
 import kotlinx.serialization.Serializable
 
 class BottomNavigationComponentComponentImpl(
@@ -23,15 +22,14 @@ class BottomNavigationComponentComponentImpl(
         childStack(
             source = navigation,
             serializer = Config.serializer(),
-            initialConfiguration = Config.Programs,
+            initialConfiguration = Config.Home,
             childFactory = ::childFactory
         )
 
     override fun onTabClicked(tab: MainNavTab) {
         when (tab) {
-            MainNavTab.PROGRAMS -> navigation.bringToFront(Config.Programs)
-            MainNavTab.USERS -> navigation.bringToFront(Config.Users)
-            MainNavTab.CONFIGURATION -> navigation.bringToFront(Config.Configuration)
+            MainNavTab.HOME -> navigation.bringToFront(Config.Home)
+            MainNavTab.SETTINGS -> navigation.bringToFront(Config.Settings)
         }
     }
 
@@ -44,37 +42,29 @@ class BottomNavigationComponentComponentImpl(
         componentContext: ComponentContext
     ): Child {
         return when (config) {
-            Config.Programs -> programsComponent(componentContext)
-            Config.Configuration -> configurationComponent(componentContext)
-            Config.Users -> usersComponent(componentContext)
+            Config.Home -> homeComponent(componentContext)
+            Config.Settings -> settingsComponent(componentContext)
         }
     }
 
-    private fun programsComponent(componentContext: ComponentContext): BottomNavigationComponent.Child =
-        BottomNavigationComponent.Child.ProgramsChild(
-            ProgramsComponentImpl(componentContext = componentContext)
+    private fun homeComponent(componentContext: ComponentContext): BottomNavigationComponent.Child =
+        Child.HomeChild(
+            HomeComponentImpl(componentContext = componentContext)
         )
 
-    private fun usersComponent(componentContext: ComponentContext): BottomNavigationComponent.Child =
-        BottomNavigationComponent.Child.UsersChild(
-            UsersComponentImpl(componentContext = componentContext)
+    private fun settingsComponent(componentContext: ComponentContext): BottomNavigationComponent.Child =
+        Child.SettingsChild(
+            SettingsComponentImpl(componentContext = componentContext)
         )
 
-    private fun configurationComponent(componentContext: ComponentContext): BottomNavigationComponent.Child =
-        BottomNavigationComponent.Child.ConfigurationChild(
-            ConfigurationComponentImpl(componentContext = componentContext)
-        )
 
     @Serializable
     private sealed interface Config {
 
         @Serializable
-        data object Programs : Config
+        data object Home : Config
 
         @Serializable
-        data object Users : Config
-
-        @Serializable
-        data object Configuration : Config
+        data object Settings : Config
     }
 }

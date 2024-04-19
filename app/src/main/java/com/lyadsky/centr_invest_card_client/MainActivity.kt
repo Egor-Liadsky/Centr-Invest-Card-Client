@@ -3,44 +3,21 @@ package com.lyadsky.centr_invest_card_client
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.lyadsky.centr_invest_card_client.ui.theme.CentrInvestCardClientTheme
+import androidx.activity.enableEdgeToEdge
+import com.arkivanov.decompose.defaultComponentContext
+import com.lyadsky.centr_invest_card_client.components.root.RootComponentImpl
+import com.lyadsky.centr_invest_card_client.ui.root.RootScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val rootComponent = RootComponentImpl(componentContext = defaultComponentContext())
+
+        enableEdgeToEdge()
+
         setContent {
-            CentrInvestCardClientTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
-            }
+            RootScreen(component = rootComponent)
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CentrInvestCardClientTheme {
-        Greeting("Android")
     }
 }

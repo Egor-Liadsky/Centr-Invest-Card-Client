@@ -1,9 +1,9 @@
-package components
+package com.lyadsky.centr_invest_card_client.components
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
-import utils.coroutineScope
+import com.lyadsky.centr_invest_card_client.utils.coroutineScope
 
 abstract class BaseComponent<State : Any>(
     componentContext: ComponentContext,

@@ -1,8 +1,8 @@
-package components.root
+package com.lyadsky.centr_invest_card_client.components.root
 
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.value.Value
-import components.bottomNavigation.BottomNavigationComponent
+import com.lyadsky.centr_invest_card_client.components.bottomNavigation.BottomNavigationComponent
 
 interface RootComponent {
 

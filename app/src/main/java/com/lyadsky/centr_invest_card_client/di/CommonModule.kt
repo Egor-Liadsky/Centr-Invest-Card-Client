@@ -1,4 +1,4 @@
-package di
+package com.lyadsky.centr_invest_card_client.di
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
@@ -12,7 +12,7 @@ import org.koin.dsl.module
 fun initKoin(appDeclaration: KoinAppDeclaration = {}) =
     startKoin {
         appDeclaration()
-        modules(commonModule, platformModule())
+        modules(commonModule)
     }
 
 val commonModule = module {

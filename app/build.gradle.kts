@@ -29,6 +29,8 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+//            buildConfigField("STRING", "BASE_URL", "https://google.com/")
         }
     }
     compileOptions {
@@ -42,7 +44,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
     packaging {
         resources {
@@ -75,7 +77,9 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.ui)
     implementation(libs.ui.graphics)
-    implementation(libs.material3)
+    implementation(libs.material)
+//    implementation(libs.material3)
+    implementation(libs.compose.foundation)
     androidTestImplementation(platform(libs.compose.bom))
     debugImplementation(libs.ui.tooling)
 }
