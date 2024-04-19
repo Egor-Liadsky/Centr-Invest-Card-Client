@@ -1,5 +1,6 @@
 package com.lyadsky.centr_invest_card_client.di
 
+import com.lyadsky.centr_invest_card_client.utils.ErrorService
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
@@ -36,4 +37,7 @@ val commonModule = module {
     }
 
     // Repositories
+
+    // Services
+    single { ErrorService() }
 }

@@ -6,6 +6,7 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
 import com.lyadsky.centr_invest_card_client.components.root.RootComponent
+import com.lyadsky.centr_invest_card_client.ui.welcome.WelcomeScreen
 import ui.bottomNavigation.BottomNavigationScreen
 
 @Composable
@@ -17,6 +18,7 @@ fun RootChildren(component: RootComponent, modifier: Modifier) {
     ) {
         when (val child = it.instance) {
             is RootComponent.Child.BottomNavigationChild -> BottomNavigationScreen(child.component)
+            is RootComponent.Child.WelcomeChild -> WelcomeScreen(component = child.component)
         }
     }
 }

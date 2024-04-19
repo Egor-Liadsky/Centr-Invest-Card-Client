@@ -78,7 +78,7 @@ dependencies {
     implementation(libs.ui)
     implementation(libs.ui.graphics)
     implementation(libs.material)
-//    implementation(libs.material3)
+    implementation("me.onebone:toolbar-compose:2.3.5")
     implementation(libs.compose.foundation)
     androidTestImplementation(platform(libs.compose.bom))
     debugImplementation(libs.ui.tooling)
