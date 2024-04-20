@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.turtleteam.api.Settings
 import com.turtleteam.api.data.api.model.User
+import com.turtleteam.api.data.api.repository.DetailCardRepository
 import com.turtleteam.impl.navigation.DetailCardNavigator
 import com.turtleteam.impl.presentation.detail_card.state.DetailCardState
 import com.whatrushka.api.profile.ProfileService
@@ -22,6 +23,7 @@ class DetailCardViewModel(
     private val settings: Settings
 ): ViewModel(), KoinComponent {
 
+    private val detailCardRepository: DetailCardRepository by inject()
     val profileService: ProfileService by inject()
 
     private val _state = MutableStateFlow(DetailCardState(
@@ -39,14 +41,13 @@ class DetailCardViewModel(
                     val userStr = settings.getUser()
                     Json.decodeFromString<User>(userStr!!)
                 }.getOrNull()
-            _state.update { it.copy(user = user) }
+
+            val serviceHistory = detailCardRepository.getServiceHistory(settings.getToken() ?: "")
+            _state.update { it.copy(user = user, serviceHistory = serviceHistory) }
         }
     }
 
     fun onBackButtonClick() {
         navigator.onBackButtonClick()
-    }
-    fun onShowRequisites(){
-        _state.update { it.copy(isDetailsShown = true) }
     }
 }

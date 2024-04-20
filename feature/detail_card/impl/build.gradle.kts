@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -42,8 +43,11 @@ dependencies {
     implementation(project(":feature:home:api"))
     implementation(project(":feature:settings:api"))
     implementation(project(":feature:detail_card:api"))
+    implementation(project(":buildLogic:api"))
     implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
+    implementation(project(Modules.core_data))
+
 
     implementation("me.onebone:toolbar-compose:2.3.5")
     implementation(Dependencies.Android.androidCore)
@@ -53,6 +57,7 @@ dependencies {
     implementation(Dependencies.JetpackCompose.ui)
     implementation(Dependencies.JetpackCompose.navigation)
     implementation(Dependencies.Data.ktorJson)
+    implementation(Dependencies.Data.ktorCore)
     implementation(Dependencies.DI.koin)
     implementation(project(mapOf("path" to ":feature:account:api")))
     implementation(project(":buildLogic:api"))

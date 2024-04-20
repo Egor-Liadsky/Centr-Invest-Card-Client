@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -114,6 +115,7 @@ fun DetailCardScreen(
                     onClick = { context.startActivity(intent) },
                     modifier = Modifier
                         .fillMaxWidth()
+                        .height(50.dp)
                         .padding(horizontal = 16.dp),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -127,24 +129,8 @@ fun DetailCardScreen(
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 14.sp,
                             color = Color.White
-                        ),
-                        modifier = Modifier.padding(vertical = 10.dp)
+                        )
                     )
-                }
-            }
-
-            item {
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .padding(top = 20.dp)
-                ) {
-                    RequisitesView(
-                        numberCode = if (state.value.isDetailsShown) cardId else cardId.hideCardNum(),
-                        date = if (state.value.isDetailsShown) state.value.cardDate else hiddenDate(),
-                        code = if (state.value.isDetailsShown) state.value.cardCvc else "•••"
-                    ) { viewModel.onShowRequisites() }
                 }
             }
 
@@ -161,82 +147,14 @@ fun DetailCardScreen(
                 )
             }
 
-            items(count = 8) {
+            items(items = state.value.serviceHistory ?: listOf()) { service ->
                 ServiceHistoryItemView(
-                    title = "Транспорт Ростова-на-Дону",
-                    description = "20.04.2024 в 15:45",
-                    history = "Транспорт Ростова-на-Дону",
+                    title = service.reason,
+                    description = service.date,
+                    history = service.price.toString(),
                     icon = R.drawable.ic_privileges
                 )
             }
         }
     }
-}
-
-@Composable
-fun RequisitesView(numberCode: String, date: String, code: String, onShow: () -> Unit) {
-    Card(
-        Modifier
-            .fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
-        ),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-    ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Реквизиты карты",
-                fontSize = 16.sp,
-                fontFamily = FontFamily(Font(R.font.qanelas)),
-                fontWeight = FontWeight.SemiBold
-            )
-
-            TextButton(onClick = { onShow() }) {
-                Text(
-                    text = "Показать",
-                    fontSize = 10.sp,
-                    color = Color.Black,
-                    fontFamily = FontFamily(Font(R.font.qanelas)),
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-        }
-        Spacer(modifier = Modifier.size(12.dp))
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp)
-                .padding(bottom = 17.dp)
-        ) {
-            HiddenText(Modifier.fillMaxWidth(), text = numberCode)
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                HiddenText(Modifier.weight(0.5f), text = code)
-                Spacer(modifier = Modifier.size(10.dp))
-                HiddenText(Modifier.weight(0.5f), text = date)
-            }
-        }
-    }
-}
-
-@Composable
-fun HiddenText(modifier: Modifier = Modifier, text: String) {
-    Text(
-        text = text,
-        fontFamily = FontFamily(Font(R.font.qanelas)),
-        modifier = modifier
-            .clip(RoundedCornerShape(10.dp))
-            .background(Color(0xFFEFEFEF))
-            .padding(horizontal = 10.dp, vertical = 14.dp)
-    )
 }
