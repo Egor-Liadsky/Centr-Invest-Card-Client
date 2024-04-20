@@ -18,8 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.turtleteam.api.api.model.FullPrivileges
+import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,7 +60,15 @@ fun ServiceItemView(
                     modifier = Modifier.size(30.dp)
                 )
 
-                Text(text = title)
+                Text(
+                    text = title,
+                    style = TextStyle(
+                        fontFamily = FontFamily(Font(R.font.qanelas)),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF2A2F33)
+                    )
+                )
             }
 
             Icon(

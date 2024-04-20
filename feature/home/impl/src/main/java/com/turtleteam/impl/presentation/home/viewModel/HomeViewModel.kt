@@ -9,6 +9,7 @@ import com.turtleteam.api.api.repository.HomeRepository
 import com.turtleteam.api.data.api.model.User
 import com.turtleteam.api.model.PaymentType
 import com.turtleteam.core_navigation.error.ErrorService
+import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_network.error.exceptionHandleable
 import com.turtleteam.impl.navigation.HomeNavigator
 import com.turtleteam.impl.presentation.home.state.HomeState
@@ -44,11 +45,16 @@ class HomeViewModel(
                         }
 
                         val cards = async { homeRepository.getCards(settings.getToken() ?: "") }
-                        _state.update { it.copy(cards = cards.await(), user = user.await()) }
+                        _state.update {
+                            it.copy(
+                                cards = cards.await(), user = user.await(),
+                                cardLoadingState = LoadingState.Success
+                            )
+                        }
                     },
                     failureBlock = {
-                        errorService.showError(settings.getToken().toString())
-                        Log.e("TAGTAG", settings.getToken().toString())
+                        errorService.showError("Ошибка с соединением ")
+                        _state.update { it.copy(cardLoadingState = LoadingState.Error("")) }
                     }
                 )
             }
@@ -78,9 +84,27 @@ class HomeViewModel(
                         }
                     }
 
-                    _state.update { it.copy(privileges = arr) }
+                    _state.update {
+                        it.copy(
+                            privileges = arr,
+                            privilegesLoadingState = LoadingState.Success
+                        )
+                    }
+                },
+                failureBlock = {
+                    errorService.showError("Ошибка с соединением ")
+                    _state.update { it.copy(privilegesLoadingState = LoadingState.Error("")) }
                 }
             )
         }
     }
+
+    fun onSelectServiceClick(service: Services) {
+        _state.update { it.copy(selectedService = service) }
+    }
+}
+
+enum class Services {
+    Medical,
+    Privileges
 }

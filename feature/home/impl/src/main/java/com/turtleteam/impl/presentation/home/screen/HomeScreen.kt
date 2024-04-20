@@ -23,11 +23,9 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +51,7 @@ import com.turtleteam.core_view.view.cards.DetailCardInfo
 import com.turtleteam.impl.presentation.home.screen.component.HistorySheetLayout
 import com.turtleteam.impl.presentation.home.screen.component.ServiceItemView
 import com.turtleteam.impl.presentation.home.viewModel.HomeViewModel
+import com.turtleteam.impl.presentation.home.viewModel.Services
 import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -62,6 +61,7 @@ data class Service(
     val title: String,
     @DrawableRes
     val icon: Int,
+    val type: Services
 )
 
 @OptIn(
@@ -86,11 +86,13 @@ fun HomeScreen(
     val services = listOf(
         Service(
             title = "Медицина",
-            icon = R.drawable.ic_medical
+            icon = R.drawable.ic_medical,
+            type = Services.Medical
         ),
         Service(
             title = "Транспорт",
-            icon = R.drawable.ic_transport
+            icon = R.drawable.ic_transport,
+            type = Services.Privileges
         )
     )
 
@@ -117,11 +119,26 @@ fun HomeScreen(
         sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
         sheetContent = {
 
-
-            HistorySheetLayout(
-                modifier = Modifier.fillMaxSize(),
-                data = state.value.privileges ?: listOf()
-            )
+            when(state.value.selectedService) {
+                Services.Medical -> {
+                    HistorySheetLayout(
+                        modifier = Modifier.fillMaxSize(),
+                        data = state.value.privileges ?: listOf(),
+                        loadingState = state.value.privilegesLoadingState,
+                        icon = R.drawable.ic_medical,
+                        title = "Медицина"
+                    )
+                }
+                Services.Privileges -> {
+                    HistorySheetLayout(
+                        modifier = Modifier.fillMaxSize(),
+                        data = state.value.privileges ?: listOf(),
+                        loadingState = state.value.privilegesLoadingState,
+                        icon = R.drawable.ic_privileges,
+                        title = "Льготы и выплаты"
+                    )
+                }
+            }
         }
     ) {
 
@@ -219,24 +236,26 @@ fun HomeScreen(
                         fontWeight = FontWeight(600),
                     )
                 }
-                items(items = services) { service ->
-                    ServiceItemView(
-                        Modifier.padding(horizontal = 16.dp),
-                        title = service.title,
-                        icon = service.icon
-                    ) {
-                        scope.launch { modalBottomSheetState.show() }
-                    }
-                    Spacer(modifier = Modifier.padding(bottom = 10.dp))
-                }
                 item {
                     ServiceItemView(
                         Modifier.padding(horizontal = 16.dp),
+                        title = "Медицина",
+                        icon = R.drawable.ic_medical
+                    ) {
+                        viewModel.onSelectServiceClick(Services.Medical)
+                        scope.launch {
+                            modalBottomSheetState.show()
+                        }
+                    }
+                }
+                item {
+                    ServiceItemView(
+                        Modifier.padding(horizontal = 16.dp).padding(top = 10.dp),
                         title = "Льготы и выплаты",
                         icon = R.drawable.ic_privileges
                     ) {
+                        viewModel.onSelectServiceClick(Services.Privileges)
                         viewModel.getPrivileges()
-
                         scope.launch {
                             modalBottomSheetState.show()
                         }

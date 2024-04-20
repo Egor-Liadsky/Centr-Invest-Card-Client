@@ -70,11 +70,11 @@ fun MainNavigationScreen(
             label = R.string.bottom_navigation_view_home,
             icon = R.drawable.ic_home
         ),
-        NavigationItem(
-            route = assistantFeature.baseRoute,
-            label = R.string.bottom_navigation_view_assistant,
-            icon = R.drawable.ic_assistant
-        ),
+//        NavigationItem(
+//            route = assistantFeature.baseRoute,
+//            label = R.string.bottom_navigation_view_assistant,
+//            icon = R.drawable.ic_assistant
+//        ),
         NavigationItem(
             route = profileFeature.baseRoute,
             label = R.string.bottom_navigation_view_profile,
