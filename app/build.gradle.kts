@@ -50,6 +50,9 @@ dependencies {
     implementation(project(Modules.core_view))
     implementation(project(Modules.core_data))
 
+    implementation(project(":buildLogic:api"))
+    implementation(project(":buildLogic:impl"))
+
     implementation(project(":feature:account:api"))
     implementation(project(":feature:account:impl"))
 
@@ -77,6 +80,7 @@ dependencies {
     implementation(project(":feature:detail_card:api"))
     implementation(project(":feature:detail_card:impl"))
 
+    implementation("androidx.datastore:datastore:1.1.0")
     implementation(Dependencies.Data.ktorClient)
     implementation(Dependencies.JetpackCompose.runtime)
     implementation(Dependencies.JetpackCompose.navigation)
