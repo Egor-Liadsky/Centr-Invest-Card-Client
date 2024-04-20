@@ -1,4 +1,4 @@
-package com.turtleteam.api.data.model
+package com.turtleteam.api.api.model
 
 import com.soywiz.klock.DateTimeTz
 import com.turtleteam.core_network.utils.DateTimeTzSerializer

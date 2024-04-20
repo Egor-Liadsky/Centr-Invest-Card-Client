@@ -34,5 +34,9 @@ android {
 
 dependencies {
 
+    // DateTime
+    implementation("com.soywiz.korlibs.klock:klock:3.4.0")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
     implementation(Dependencies.Data.ktorCore)
 }

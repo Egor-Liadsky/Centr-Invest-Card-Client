@@ -77,14 +77,10 @@ fun HistorySheetLayout(
                     }
                 }
             } else {
-                items(items = data) {
-                    ServiceHistoryItemView(
-                        title = it.name,
-                        description = it.legend,
-                        history = it.history,
-                        icon = icon
-                    )
-                }
+//                items(items = data) {
+//                    ServiceHistoryItemView(
+//                    )
+//                }
             }
         }
     }

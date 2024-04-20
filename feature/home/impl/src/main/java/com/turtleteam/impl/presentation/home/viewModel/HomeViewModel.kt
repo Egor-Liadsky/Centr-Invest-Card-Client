@@ -60,11 +60,15 @@ class HomeViewModel(
                             }.getOrNull()
                         }
 
+                        val categories = homeRepository.getCategories()
+
                         val cards = async { homeRepository.getCards(settings.getToken() ?: "") }
                         _state.update {
                             it.copy(
                                 cards = cards.await(), user = user.await(),
-                                cardLoadingState = LoadingState.Success
+                                categories = categories,
+                                cardLoadingState = LoadingState.Success,
+                                categoriesLoadingState = LoadingState.Success
                             )
                         }
                     },

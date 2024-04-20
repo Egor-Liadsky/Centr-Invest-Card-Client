@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -195,6 +196,20 @@ fun HomeScreen(
                     .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
                 contentPadding = PaddingValues(vertical = 28.dp)
             ) {
+
+                items(items = state.value.categories ?: listOf()) { category ->
+                    ServiceItemView(
+                        Modifier.padding(horizontal = 16.dp),
+                        title = "Медицина",
+                        icon = R.drawable.ic_medical
+                    ) {
+                        viewModel.onSelectServiceClick(Services.Medical)
+                        scope.launch {
+                            modalBottomSheetState.show()
+                        }
+                    }
+                }
+
                 item {
                     Text(
                         modifier = Modifier

@@ -36,6 +36,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core_data"))
+    implementation("com.soywiz.korlibs.klock:klock:3.4.0")
 
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.2")
     implementation(project(Modules.core_navigation))
