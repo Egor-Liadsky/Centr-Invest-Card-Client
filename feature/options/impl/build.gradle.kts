@@ -51,5 +51,6 @@ dependencies {
     implementation(Dependencies.JetpackCompose.ui)
     implementation(Dependencies.JetpackCompose.navigation)
     implementation(Dependencies.DI.koin)
+    implementation("io.coil-kt:coil-compose:2.6.0")
     implementation(project(mapOf("path" to ":core_view")))
 }
