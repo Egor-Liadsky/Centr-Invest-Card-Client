@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -144,26 +145,14 @@ fun DetailCardScreen(
                 )
             }
 
-            items(count = 8) {
+            items(items = state.value.serviceHistory ?: listOf()) { service ->
                 ServiceHistoryItemView(
-                    title = "Транспорт Ростова-на-Дону",
-                    description = "20.04.2024 в 15:45",
-                    history = "Транспорт Ростова-на-Дону",
+                    title = service.reason,
+                    description = service.date,
+                    history = service.price.toString(),
                     icon = R.drawable.ic_privileges
                 )
             }
         }
     }
-}
-
-@Composable
-fun HiddenText(modifier: Modifier = Modifier, text: String) {
-    Text(
-        text = text,
-        fontFamily = FontFamily(Font(R.font.qanelas)),
-        modifier = modifier
-            .clip(RoundedCornerShape(10.dp))
-            .background(Color(0xFFEFEFEF))
-            .padding(horizontal = 10.dp, vertical = 14.dp)
-    )
 }

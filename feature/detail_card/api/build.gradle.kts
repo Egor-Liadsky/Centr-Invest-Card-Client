@@ -1,6 +1,9 @@
+import org.gradle.api.artifacts.dsl.Dependencies
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -34,5 +37,6 @@ android {
 
 dependencies {
 
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.2")
     implementation(project(Modules.core_navigation))
 }
