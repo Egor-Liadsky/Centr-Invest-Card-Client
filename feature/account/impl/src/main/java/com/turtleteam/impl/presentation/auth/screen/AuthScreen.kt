@@ -38,6 +38,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -46,6 +48,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.turtleteam.api.data.api.model.UserDTOReceive
 import com.turtleteam.core_navigation.error.ErrorService
 import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_view.R
@@ -65,10 +68,8 @@ fun AuthScreen(
 
     val state = viewModel.state.collectAsState()
     val focusManager = LocalFocusManager.current
-    val scope = rememberCoroutineScope()
 
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
-    var isError by remember { mutableStateOf(false) }
 
     CollapsingToolbarScaffold(
         modifier = Modifier
@@ -106,6 +107,7 @@ fun AuthScreen(
                         style = TextStyle(
                             fontSize = 20.sp,
                             lineHeight = 28.sp,
+                            fontFamily = FontFamily(Font(R.font.qanelas)),
                             fontWeight = FontWeight(600),
                             color = Color(0xFFFFFFFF),
                         )
@@ -132,8 +134,8 @@ fun AuthScreen(
                         lineHeight = 28.sp,
                         fontWeight = FontWeight(600),
                         color = Color(0xFF000000),
-
-                        )
+                        fontFamily = FontFamily(Font(R.font.qanelas)),
+                    )
                 )
             }
             item {
@@ -147,7 +149,7 @@ fun AuthScreen(
                             keyboardType = KeyboardType.Email,
                             imeAction = ImeAction.Next
                         ),
-                        placeholder = "Введите логин или почту",
+                        placeholder = "Логин",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 24.dp)
@@ -175,50 +177,40 @@ fun AuthScreen(
                         keyboardActions = KeyboardActions(onDone = {
                             focusManager.clearFocus()
                         }),
-                        placeholder = "Введите пароль",
+                        placeholder = "Пароль",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 24.dp)
                     )
 
                     Button(
-                        modifier = Modifier
-                            .padding(top = 36.dp)
-                            .fillMaxWidth()
-                            .height(51.dp),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF04659C),
-                            contentColor = Color.White
-                        ),
                         onClick = {
                             focusManager.clearFocus()
-                            if (state.value.loginText == "" || state.value.passwordText == "") {
-                                isError = true
-                                scope.launch { errorService.showError("Зполните все поля") }
-                            } else {
-                                viewModel.onAuthClick(
-                                    state.value.loginText,
-                                    state.value.passwordText
-                                )
-                            }
-                        }) {
-                        if (state.value.authLoadingState == LoadingState.Loading) {
-                            CircularProgressIndicator(
-                                Modifier.size(24.dp),
-                                color = Color.White
+                            viewModel.onAuthClick(
+                                state.value.loginText,
+                                state.value.passwordText
                             )
+                        },
+                        modifier = Modifier
+                            .padding(top = 30.dp)
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF2A2F33)
+                        )
+                    ) {
+                        if (state.value.authLoadingState == LoadingState.Loading) {
+                            CircularProgressIndicator(Modifier.size(24.dp), color = Color.White)
                         } else {
                             Text(
                                 text = "Войти",
                                 style = TextStyle(
+                                    fontFamily = FontFamily(Font(R.font.qanelas)),
+                                    fontWeight = FontWeight.SemiBold,
                                     fontSize = 14.sp,
-                                    lineHeight = 20.sp,
-                                    fontWeight = FontWeight(600),
-                                    color = Color(0xFFFFFFFF),
-
-                                    textAlign = TextAlign.Center,
-                                    letterSpacing = 0.1.sp,
-                                )
+                                    color = Color.White
+                                ),
                             )
                         }
                     }

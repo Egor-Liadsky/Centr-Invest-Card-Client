@@ -5,6 +5,7 @@ import com.turtleteam.core_navigation.state.LoadingState
 data class RegisterState(
     val registerLoadingState: LoadingState = LoadingState.Success,
     val checkBoxEnabled: Boolean = false,
+
     //Textfields
     val loginText: String = "",
     val loginError: Boolean = false,
@@ -15,8 +16,8 @@ data class RegisterState(
     val lastNameText: String = "",
     val lastNameError: Boolean = false,
 
-    val emailText: String = "",
-    val emailError: Boolean = false,
+    val surnameText: String = "",
+    val surnameError: Boolean = false,
 
     val passwordText: String = "",
     val passwordError: Boolean = false,
