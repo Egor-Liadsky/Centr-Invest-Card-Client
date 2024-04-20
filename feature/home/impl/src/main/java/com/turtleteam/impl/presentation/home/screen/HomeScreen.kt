@@ -133,6 +133,8 @@ fun HomeScreen(
                     ) {
                         if (state.value.cards?.size != 0) {
                             DetailCardInfo(
+                                owner = "${state.value.userProfile.name} ${state.value.userProfile.surname}",
+                                cash = state.value.userProfile.cash,
                                 modifier = Modifier
                                     .align(Alignment.CenterHorizontally)
                                     .fillMaxWidth()
@@ -172,7 +174,7 @@ fun HomeScreen(
                     )
                     Text(
                         modifier = Modifier.padding(start = 10.dp),
-                        text = "Егор Лядский",
+                        text = "${state.value.userProfile.name} ${state.value.userProfile.surname}",
                         fontSize = 20.sp,
                         fontWeight = FontWeight(600),
                         color = Color.White

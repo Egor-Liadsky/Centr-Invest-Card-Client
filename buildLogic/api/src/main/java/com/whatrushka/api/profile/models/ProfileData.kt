@@ -7,5 +7,6 @@ data class ProfileData(
     val name: String = "",
     val surname: String = "",
     val patronymic: String = "",
-    val nickname: String = ""
+    val nickname: String = "",
+    val cash: Float = 0f
 )

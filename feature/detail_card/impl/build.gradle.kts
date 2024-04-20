@@ -59,4 +59,5 @@ dependencies {
     implementation(Dependencies.Data.ktorCore)
     implementation(Dependencies.DI.koin)
     implementation(project(mapOf("path" to ":feature:account:api")))
+    implementation(project(":buildLogic:api"))
 }

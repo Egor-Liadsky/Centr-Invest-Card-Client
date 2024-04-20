@@ -7,6 +7,7 @@ import com.turtleteam.api.data.api.model.User
 import com.turtleteam.api.data.api.repository.DetailCardRepository
 import com.turtleteam.impl.navigation.DetailCardNavigator
 import com.turtleteam.impl.presentation.detail_card.state.DetailCardState
+import com.whatrushka.api.profile.ProfileService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,6 +24,7 @@ class DetailCardViewModel(
 ): ViewModel(), KoinComponent {
 
     private val detailCardRepository: DetailCardRepository by inject()
+    val profileService: ProfileService by inject()
 
     private val _state = MutableStateFlow(DetailCardState(
         limitBegin = 100,
@@ -32,6 +34,9 @@ class DetailCardViewModel(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
+            val userData = profileService.getUserProfile()
+            _state.update { it.copy(userData = userData) }
+
             val user = kotlin.runCatching {
                     val userStr = settings.getUser()
                     Json.decodeFromString<User>(userStr!!)

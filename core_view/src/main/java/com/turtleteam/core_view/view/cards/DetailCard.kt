@@ -35,6 +35,8 @@ import com.turtleteam.core_view.R
 @SuppressLint("SimpleDateFormat", "UnrememberedMutableInteractionSource")
 @Composable
 fun DetailCardInfo(
+    owner: String,
+    cash: Float,
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null
 ) {
@@ -104,7 +106,7 @@ fun DetailCardInfo(
                         ),
                     )
                     Text(
-                        text = "Daria Arkhipova",
+                        text = owner,
                         style = TextStyle(
                             fontFamily = FontFamily(Font(R.font.qanelas)),
                             fontSize = 14.sp,
@@ -126,7 +128,7 @@ fun DetailCardInfo(
                         ),
                     )
                     Text(
-                        text = "10 000₽",
+                        text = "${cash}₽",
                         style = TextStyle(
                             fontFamily = FontFamily(Font(R.font.qanelas)),
                             fontSize = 14.sp,

@@ -87,6 +87,8 @@ fun DetailCardScreen(
             }
 
             DetailCardInfo(
+                owner = "${state.value.userData.name} ${state.value.userData.surname}",
+                cash = state.value.userData.cash,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = (screenWidth * 0.1f).dp)
