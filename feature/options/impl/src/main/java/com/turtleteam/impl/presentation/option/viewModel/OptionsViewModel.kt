@@ -28,4 +28,16 @@ class OptionsViewModel(
             _state.update { it.copy(user = user) }
         }
     }
+
+    fun navigateToAboutApp() {
+        navigator.navigateToAboutApp()
+    }
+
+    fun navigateToFeedback() {
+        navigator.navigateToFeedback()
+    }
+
+    fun navigateToFaq() {
+        navigator.navigateToFaq()
+    }
 }

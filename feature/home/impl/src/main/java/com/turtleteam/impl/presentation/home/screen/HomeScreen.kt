@@ -84,37 +84,6 @@ fun HomeScreen(
         skipHalfExpanded = true
     )
 
-    val services = listOf(
-        Service(
-            title = "Медицина",
-            icon = R.drawable.ic_medical,
-            type = Services.Medical
-        ),
-        Service(
-            title = "Транспорт",
-            icon = R.drawable.ic_transport,
-            type = Services.Privileges
-        )
-    )
-
-    OperationBottomSheet(
-        operation = Operation(
-            id = "1",
-            sum = "85",
-            date = "20.11.2023",
-            bankRecipient = "Центр-Инвест",
-            billRecipient = "1234 1231 8789 3432",
-            recipientType = "Дебетовый счет",
-            phoneRecipient = "+79044422123",
-            status = "Выполнен",
-            operationType = "Перевод",
-            operationCategory = "Книги",
-            numberReceipt = "1234 1231 8789 3432",
-            commission = "20%",
-            comment = "на еду"
-        ), showBottomSheet = showBottomSheet
-    )
-
     ModalBottomSheetLayout(
         sheetState = modalBottomSheetState,
         sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
