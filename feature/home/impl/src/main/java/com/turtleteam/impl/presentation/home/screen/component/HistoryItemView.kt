@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -22,10 +23,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.turtleteam.api.api.model.FullPrivileges
 import com.turtleteam.core_view.R
 
 @Composable
-fun HistorySheetLayout(modifier: Modifier) {
+fun HistorySheetLayout(modifier: Modifier, data: List<FullPrivileges>) {
 
     LazyColumn(modifier) {
         item {
@@ -39,14 +41,13 @@ fun HistorySheetLayout(modifier: Modifier) {
             )
         }
 
-        item {
-            repeat(10) {
-                HistoryItemView(
-                    title = "Транспорт Ростова-на-Дону",
-                    description = "20.04.2024 в 15:45",
-                    icon = R.drawable.ic_transport
-                )
-            }
+        items(items = data) {
+            HistoryItemView(
+                title = it.name,
+                description = it.legend,
+                history = it.history,
+                icon = R.drawable.ic_transport
+            )
         }
     }
 }
@@ -56,6 +57,7 @@ fun HistoryItemView(
     modifier: Modifier = Modifier,
     title: String,
     description: String,
+    history: String,
     icon: Int,
 ) {
 
@@ -93,6 +95,16 @@ fun HistoryItemView(
                     )
                     Text(
                         text = description,
+                        style = TextStyle(
+                            fontFamily = FontFamily(Font(R.font.qanelas)),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFF919191)
+                        ),
+                    )
+
+                    Text(
+                        text = history,
                         style = TextStyle(
                             fontFamily = FontFamily(Font(R.font.qanelas)),
                             fontSize = 12.sp,

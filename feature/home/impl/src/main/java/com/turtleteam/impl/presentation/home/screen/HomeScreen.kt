@@ -27,6 +27,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -64,7 +65,7 @@ data class Service(
 )
 
 @OptIn(
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalFoundationApi::class,
     ExperimentalMaterialApi::class
 )
 @Composable
@@ -90,11 +91,7 @@ fun HomeScreen(
         Service(
             title = "Транспорт",
             icon = R.drawable.ic_transport
-        ),
-        Service(
-            title = "Льготы и выплаты",
-            icon = R.drawable.ic_privileges
-        ),
+        )
     )
 
     OperationBottomSheet(
@@ -121,7 +118,10 @@ fun HomeScreen(
         sheetContent = {
 
 
-            HistorySheetLayout(modifier = Modifier.fillMaxSize())
+            HistorySheetLayout(
+                modifier = Modifier.fillMaxSize(),
+                data = state.value.privileges ?: listOf()
+            )
         }
     ) {
 
@@ -198,7 +198,6 @@ fun HomeScreen(
                         painter = painterResource(id = R.drawable.ic_arrow_right),
                         contentDescription = null,
                         tint = Color.White,
-
                     )
                 }
             }) {
@@ -236,7 +235,11 @@ fun HomeScreen(
                         title = "Льготы и выплаты",
                         icon = R.drawable.ic_privileges
                     ) {
-                        scope.launch { modalBottomSheetState.show() }
+                        viewModel.getPrivileges()
+
+                        scope.launch {
+                            modalBottomSheetState.show()
+                        }
                     }
                 }
             }

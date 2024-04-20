@@ -74,7 +74,7 @@ fun DetailCardInfo(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Карта\nРостовчанина",
+                    text = "КАРТА\nРОСТОВЧАНИНА",
                     style = TextStyle(
                         fontFamily = FontFamily(Font(R.font.despairdisplay_bold)),
                         fontSize = 14.sp,

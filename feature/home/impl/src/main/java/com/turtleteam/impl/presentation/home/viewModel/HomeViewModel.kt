@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.turtleteam.api.Settings
+import com.turtleteam.api.api.model.FullPrivileges
 import com.turtleteam.api.api.repository.HomeRepository
 import com.turtleteam.api.data.api.model.User
 import com.turtleteam.api.model.PaymentType
@@ -43,7 +44,7 @@ class HomeViewModel(
                         }
 
                         val cards = async { homeRepository.getCards(settings.getToken() ?: "") }
-                        _state.update { it.copy(cards = cards.await(), user =user.await()) }
+                        _state.update { it.copy(cards = cards.await(), user = user.await()) }
                     },
                     failureBlock = {
                         errorService.showError(settings.getToken().toString())
@@ -56,5 +57,30 @@ class HomeViewModel(
 
     fun navigateToDetailCard(cardId: String) {
         navigator.navigateToDetailCard(cardId)
+    }
+
+    fun getPrivileges() {
+        viewModelScope.launch(Dispatchers.IO) {
+            exceptionHandleable(
+                executionBlock = {
+                    val user_privilege =
+                        state.value.cards?.get(0)?.key?.let { homeRepository.getPrivileges(it) }
+
+                    val all_privileges = homeRepository.getAllPrivileges()
+
+                    val arr = mutableListOf<FullPrivileges>()
+
+                    all_privileges.forEach { all ->
+                        user_privilege?.result?.forEach { user ->
+                            if (user == all.privileges_prefix) {
+                                arr.add(all)
+                            }
+                        }
+                    }
+
+                    _state.update { it.copy(privileges = arr) }
+                }
+            )
+        }
     }
 }

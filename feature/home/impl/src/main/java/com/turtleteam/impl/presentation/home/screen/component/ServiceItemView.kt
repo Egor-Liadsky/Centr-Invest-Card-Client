@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.turtleteam.api.api.model.FullPrivileges
 import com.turtleteam.core_view.R
 
 @OptIn(ExperimentalMaterial3Api::class)
