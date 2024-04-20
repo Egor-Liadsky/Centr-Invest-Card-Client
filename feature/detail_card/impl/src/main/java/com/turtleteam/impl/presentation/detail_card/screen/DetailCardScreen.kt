@@ -1,5 +1,7 @@
 package com.turtleteam.impl.presentation.detail_card.screen
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +15,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -32,13 +36,17 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R
 import com.turtleteam.core_view.view.cards.DetailCardInfo
+import com.turtleteam.core_view.view.cards.ServiceHistoryItemView
 import com.turtleteam.core_view.view.hiddenDate
 import com.turtleteam.core_view.view.hideCardNum
 import com.turtleteam.impl.presentation.detail_card.viewModel.DetailCardViewModel
@@ -54,6 +62,9 @@ fun DetailCardScreen(
     val screenWidth = LocalConfiguration.current.screenWidthDp
     val progress = remember { mutableFloatStateOf(0f) }
     val state = viewModel.state.collectAsState()
+    val context = LocalContext.current
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.centrinvest.ru"))
+
     CollapsingToolbarScaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -97,17 +108,41 @@ fun DetailCardScreen(
         ) {
 
             item {
+                Button(
+                    onClick = { context.startActivity(intent) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF2A2F33)
+                    )
+                ) {
+                    Text(
+                        text = "Пополнить",
+                        style = TextStyle(
+                            fontFamily = FontFamily(Font(R.font.qanelas)),
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 14.sp,
+                            color = Color.White
+                        ),
+                        modifier = Modifier.padding(vertical = 10.dp)
+                    )
+                }
+            }
+
+            item {
                 Column(
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp)
-                        .padding(top = 24.dp)
+                        .padding(top = 20.dp)
                 ) {
                     RequisitesView(
                         numberCode = if (state.value.isDetailsShown) cardId else cardId.hideCardNum(),
-                        date = if (state.value.isDetailsShown)state.value.cardDate else hiddenDate(),
-                        code = if (state.value.isDetailsShown)state.value.cardCvc else "•••"
-                    ){viewModel.onShowRequisites()}
+                        date = if (state.value.isDetailsShown) state.value.cardDate else hiddenDate(),
+                        code = if (state.value.isDetailsShown) state.value.cardCvc else "•••"
+                    ) { viewModel.onShowRequisites() }
                 }
             }
 
@@ -117,6 +152,7 @@ fun DetailCardScreen(
                         .padding(horizontal = 16.dp)
                         .padding(top = 30.dp),
                     text = "История операций",
+                    fontFamily = FontFamily(Font(R.font.qanelas)),
                     fontSize = 16.sp,
                     lineHeight = 28.sp,
                     fontWeight = FontWeight(600),
@@ -124,86 +160,19 @@ fun DetailCardScreen(
             }
 
             items(count = 8) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .padding(top = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column {
-                        Text(
-                            text = "Крайнюков А.",
-                            fontSize = 14.sp,
-                            lineHeight = 28.sp,
-                            fontWeight = FontWeight(600),
-                        )
-                        Text(
-                            text = "Переводы",
-                            fontSize = 12.sp,
-                            lineHeight = 28.sp,
-                        )
-                    }
-                    Text(
-                        text = "-85 ₽ ",
-                        fontSize = 14.sp,
-                        lineHeight = 28.sp,
-                        fontWeight = FontWeight(600),
-                    )
-                }
+                ServiceHistoryItemView(
+                    title = "Транспорт Ростова-на-Дону",
+                    description = "20.04.2024 в 15:45",
+                    history = "Транспорт Ростова-на-Дону",
+                    icon = R.drawable.ic_privileges
+                )
             }
         }
     }
 }
 
 @Composable
-fun LimitView(limitBegin: Int, limitEnd: Int) {
-    Card(
-        Modifier
-            .fillMaxWidth()
-            .background(Color.White),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
-        ),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-    ) {
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(horizontal = 10.dp)
-                .padding(vertical = 18.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            Text(
-                text = "Твой лимит - $limitBegin ₽",
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            )
-            Text(
-                text = "Потрачено $limitEnd ₽",
-                fontSize = 10.sp,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(top = 15.dp)
-            )
-
-            LinearProgressIndicator(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(10.dp)
-                    .clip(RoundedCornerShape(10.dp)),
-                progress = (limitEnd.toFloat() / limitBegin.toFloat()),
-                color = Color(0xFF4DB45F),
-                trackColor = Color(0xFFEFEFEF),
-            )
-        }
-    }
-}
-
-@Composable
-fun RequisitesView(numberCode: String, date: String, code: String, onShow:()->Unit) {
+fun RequisitesView(numberCode: String, date: String, code: String, onShow: () -> Unit) {
     Card(
         Modifier
             .fillMaxWidth(),
@@ -222,6 +191,7 @@ fun RequisitesView(numberCode: String, date: String, code: String, onShow:()->Un
             Text(
                 text = "Реквизиты карты",
                 fontSize = 16.sp,
+                fontFamily = FontFamily(Font(R.font.qanelas)),
                 fontWeight = FontWeight.SemiBold
             )
 
@@ -230,6 +200,7 @@ fun RequisitesView(numberCode: String, date: String, code: String, onShow:()->Un
                     text = "Показать",
                     fontSize = 10.sp,
                     color = Color.Black,
+                    fontFamily = FontFamily(Font(R.font.qanelas)),
                     fontWeight = FontWeight.SemiBold
                 )
             }
@@ -260,61 +231,10 @@ fun RequisitesView(numberCode: String, date: String, code: String, onShow:()->Un
 fun HiddenText(modifier: Modifier = Modifier, text: String) {
     Text(
         text = text,
+        fontFamily = FontFamily(Font(R.font.qanelas)),
         modifier = modifier
             .clip(RoundedCornerShape(10.dp))
             .background(Color(0xFFEFEFEF))
             .padding(horizontal = 10.dp, vertical = 14.dp)
     )
-}
-
-@Composable
-fun CardInfo(modifier: Modifier = Modifier, name: String) {
-    Column(
-        Modifier
-            .then(modifier)
-            .clip(RoundedCornerShape(10.dp))
-            .background(Color(0xFF4DB45F))
-    ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(start = 12.dp, end = 15.dp, top = 21.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_plata), contentDescription = null,
-                modifier = Modifier.size(width = 60.dp, height = 40.dp),
-                tint = Color.White
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.ic_mir), contentDescription = null,
-                modifier = Modifier.size(width = 62.dp, height = 18.dp),
-                tint = Color.White
-            )
-        }
-
-
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 76.dp, start = 26.dp, bottom = 22.dp, end = 26.dp)
-        ) {
-            Text(
-                text = "Имя владельца",
-                style = TextStyle(
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = Color.White
-                ),
-            )
-            Text(
-                text = name,
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-            )
-        }
-    }
 }
