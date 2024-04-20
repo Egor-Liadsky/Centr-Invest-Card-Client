@@ -1,13 +1,11 @@
 package com.turtleteam.impl.presentation.home.screen
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,7 +13,6 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -45,10 +42,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R
 import com.turtleteam.core_view.R.drawable
-import com.turtleteam.core_view.models.Operation
 import com.turtleteam.core_view.view.PageIndicator
-import com.turtleteam.core_view.view.bottomSheet.OperationBottomSheet
 import com.turtleteam.core_view.view.cards.DetailCardInfo
+import com.turtleteam.core_view.view.cards.EmptyCardInfo
 import com.turtleteam.impl.presentation.home.screen.component.HistorySheetLayout
 import com.turtleteam.impl.presentation.home.screen.component.ServiceItemView
 import com.turtleteam.impl.presentation.home.viewModel.HomeViewModel
@@ -57,13 +53,6 @@ import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
 import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
-
-data class Service(
-    val title: String,
-    @DrawableRes
-    val icon: Int,
-    val type: Services
-)
 
 @OptIn(
     ExperimentalFoundationApi::class,
@@ -75,9 +64,8 @@ fun HomeScreen(
     viewModel: HomeViewModel
 ) {
     val progress = remember { mutableFloatStateOf(0f) }
-    val showBottomSheet = remember { mutableStateOf(false) }
     val state = viewModel.state.collectAsState()
-    val pagerState = rememberPagerState { state.value.cards?.size ?: 1 }
+    val pagerState = rememberPagerState { if (state.value.cards?.size == 0) 1 else state.value.cards?.size ?: 1 }
     val scope = rememberCoroutineScope()
     val modalBottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -89,7 +77,7 @@ fun HomeScreen(
         sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
         sheetContent = {
 
-            when(state.value.selectedService) {
+            when (state.value.selectedService) {
                 Services.Medical -> {
                     HistorySheetLayout(
                         modifier = Modifier.fillMaxSize(),
@@ -99,6 +87,7 @@ fun HomeScreen(
                         title = "Медицина"
                     )
                 }
+
                 Services.Privileges -> {
                     HistorySheetLayout(
                         modifier = Modifier.fillMaxSize(),
@@ -127,6 +116,7 @@ fun HomeScreen(
                 val scale = (progress.floatValue * 10f) * 0.02f
                 Column(
                     modifier = Modifier
+                        .fillMaxWidth()
                         .progress { progress.floatValue = it }
                         .alpha(progress.floatValue)
                         .padding(top = 70.dp)
@@ -135,12 +125,13 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.spacedBy(20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    if (state.value.cards?.size != 0) {
-                        HorizontalPager(
-                            state = pagerState,
-                            contentPadding = PaddingValues(horizontal = 16.dp),
-                            pageSpacing = 16.dp
-                        ) {
+
+                    HorizontalPager(
+                        state = pagerState,
+                        contentPadding = PaddingValues(horizontal = 16.dp),
+                        pageSpacing = 16.dp
+                    ) {
+                        if (state.value.cards?.size != 0) {
                             DetailCardInfo(
                                 modifier = Modifier
                                     .align(Alignment.CenterHorizontally)
@@ -151,6 +142,13 @@ fun HomeScreen(
                                     viewModel.navigateToDetailCard(cardId = it.key)
                                 }
                             }
+                        } else {
+                            EmptyCardInfo(
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 24.dp),
+                            )
                         }
                         PageIndicator(
                             currentPage = pagerState.currentPage,
@@ -158,12 +156,13 @@ fun HomeScreen(
                         )
                     }
                 }
-                TextButton(
+                Row(
                     modifier = Modifier
                         .pin()
                         .height(60.dp)
+                        .padding(top = 20.dp)
                         .padding(horizontal = 16.dp),
-                    onClick = { viewModel.navigateToProfile() }
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         modifier = Modifier
@@ -219,7 +218,9 @@ fun HomeScreen(
                 }
                 item {
                     ServiceItemView(
-                        Modifier.padding(horizontal = 16.dp).padding(top = 10.dp),
+                        Modifier
+                            .padding(horizontal = 16.dp)
+                            .padding(top = 10.dp),
                         title = "Льготы и выплаты",
                         icon = R.drawable.ic_privileges
                     ) {

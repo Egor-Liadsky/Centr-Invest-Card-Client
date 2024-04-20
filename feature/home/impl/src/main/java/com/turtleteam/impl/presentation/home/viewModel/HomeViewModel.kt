@@ -63,10 +63,6 @@ class HomeViewModel(
         navigator.navigateToDetailCard(cardId)
     }
 
-    fun navigateToProfile() {
-        navigator.navigateToProfile()
-    }
-
     fun getPrivileges() {
         viewModelScope.launch(Dispatchers.IO) {
             exceptionHandleable(
