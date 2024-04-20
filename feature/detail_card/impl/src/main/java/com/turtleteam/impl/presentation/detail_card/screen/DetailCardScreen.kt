@@ -132,21 +132,6 @@ fun DetailCardScreen(
             }
 
             item {
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                        .padding(top = 20.dp)
-                ) {
-                    RequisitesView(
-                        numberCode = if (state.value.isDetailsShown) cardId else cardId.hideCardNum(),
-                        date = if (state.value.isDetailsShown) state.value.cardDate else hiddenDate(),
-                        code = if (state.value.isDetailsShown) state.value.cardCvc else "•••"
-                    ) { viewModel.onShowRequisites() }
-                }
-            }
-
-            item {
                 Text(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
@@ -166,62 +151,6 @@ fun DetailCardScreen(
                     history = "Транспорт Ростова-на-Дону",
                     icon = R.drawable.ic_privileges
                 )
-            }
-        }
-    }
-}
-
-@Composable
-fun RequisitesView(numberCode: String, date: String, code: String, onShow: () -> Unit) {
-    Card(
-        Modifier
-            .fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
-        ),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-    ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "Реквизиты карты",
-                fontSize = 16.sp,
-                fontFamily = FontFamily(Font(R.font.qanelas)),
-                fontWeight = FontWeight.SemiBold
-            )
-
-            TextButton(onClick = { onShow() }) {
-                Text(
-                    text = "Показать",
-                    fontSize = 10.sp,
-                    color = Color.Black,
-                    fontFamily = FontFamily(Font(R.font.qanelas)),
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-        }
-        Spacer(modifier = Modifier.size(12.dp))
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 10.dp)
-                .padding(bottom = 17.dp)
-        ) {
-            HiddenText(Modifier.fillMaxWidth(), text = numberCode)
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                HiddenText(Modifier.weight(0.5f), text = code)
-                Spacer(modifier = Modifier.size(10.dp))
-                HiddenText(Modifier.weight(0.5f), text = date)
             }
         }
     }

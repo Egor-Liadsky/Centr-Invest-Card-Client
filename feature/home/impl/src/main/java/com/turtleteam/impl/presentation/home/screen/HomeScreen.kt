@@ -159,8 +159,7 @@ fun HomeScreen(
                 Row(
                     modifier = Modifier
                         .pin()
-                        .height(60.dp)
-                        .padding(top = 20.dp)
+                        .padding(top = 20.dp, bottom = 17.dp)
                         .padding(horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
