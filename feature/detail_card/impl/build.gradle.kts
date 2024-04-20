@@ -43,6 +43,7 @@ dependencies {
     implementation(project(":feature:home:api"))
     implementation(project(":feature:settings:api"))
     implementation(project(":feature:detail_card:api"))
+    implementation(project(":buildLogic:api"))
     implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
     implementation(project(Modules.core_data))
