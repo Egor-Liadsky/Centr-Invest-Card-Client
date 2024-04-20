@@ -3,9 +3,11 @@ package com.turtleteam.impl.presentation.home.screen
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,6 +24,7 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.TextButton
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,8 +44,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_view.R
 import com.turtleteam.core_view.R.drawable
+import com.turtleteam.core_view.utils.categoryIcon
 import com.turtleteam.core_view.view.PageIndicator
 import com.turtleteam.core_view.view.cards.DetailCardInfo
 import com.turtleteam.core_view.view.cards.EmptyCardInfo
@@ -66,7 +71,9 @@ fun HomeScreen(
 ) {
     val progress = remember { mutableFloatStateOf(0f) }
     val state = viewModel.state.collectAsState()
-    val pagerState = rememberPagerState { if (state.value.cards?.size == 0) 1 else state.value.cards?.size ?: 1 }
+    val pagerState =
+        rememberPagerState { if (state.value.cards?.size == 0) 1 else state.value.cards?.size ?: 1 }
+
     val scope = rememberCoroutineScope()
     val modalBottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -78,27 +85,16 @@ fun HomeScreen(
         sheetShape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp),
         sheetContent = {
 
-            when (state.value.selectedService) {
-                Services.Medical -> {
-                    HistorySheetLayout(
-                        modifier = Modifier.fillMaxSize(),
-                        data = state.value.privileges ?: listOf(),
-                        loadingState = state.value.privilegesLoadingState,
-                        icon = R.drawable.ic_medical,
-                        title = "Медицина"
-                    )
-                }
-
-                Services.Privileges -> {
-                    HistorySheetLayout(
-                        modifier = Modifier.fillMaxSize(),
-                        data = state.value.privileges ?: listOf(),
-                        loadingState = state.value.privilegesLoadingState,
-                        icon = R.drawable.ic_privileges,
-                        title = "Льготы и выплаты"
-                    )
-                }
-            }
+            val data =
+                state.value.serviceHistory?.filter { it.category_id == state.value.selectedPrivileges?.id }
+            HistorySheetLayout(
+                modifier = Modifier.fillMaxSize(),
+                data = data ?: listOf(),
+                loadingState = state.value.serviceLoadingState,
+                icon = state.value.selectedPrivileges?.id?.categoryIcon()
+                    ?: R.drawable.ic_not_category,
+                title = state.value.selectedPrivileges?.name ?: "Операции"
+            )
         }
     ) {
 
@@ -153,10 +149,6 @@ fun HomeScreen(
                                     .padding(horizontal = 24.dp),
                             )
                         }
-                        PageIndicator(
-                            currentPage = pagerState.currentPage,
-                            count = state.value.cards?.size ?: 1
-                        )
                     }
                 }
                 Row(
@@ -180,12 +172,6 @@ fun HomeScreen(
                         fontWeight = FontWeight(600),
                         color = Color.White
                     )
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_right),
-                        contentDescription = null,
-                        tint = Color.White,
-                    )
                 }
             }) {
 
@@ -197,19 +183,6 @@ fun HomeScreen(
                 contentPadding = PaddingValues(vertical = 28.dp)
             ) {
 
-                items(items = state.value.categories ?: listOf()) { category ->
-                    ServiceItemView(
-                        Modifier.padding(horizontal = 16.dp),
-                        title = "Медицина",
-                        icon = R.drawable.ic_medical
-                    ) {
-                        viewModel.onSelectServiceClick(Services.Medical)
-                        scope.launch {
-                            modalBottomSheetState.show()
-                        }
-                    }
-                }
-
                 item {
                     Text(
                         modifier = Modifier
@@ -220,33 +193,69 @@ fun HomeScreen(
                         fontWeight = FontWeight(600),
                     )
                 }
-                item {
-                    ServiceItemView(
-                        Modifier.padding(horizontal = 16.dp),
-                        title = "Медицина",
-                        icon = R.drawable.ic_medical
-                    ) {
-                        viewModel.onSelectServiceClick(Services.Medical)
-                        scope.launch {
-                            modalBottomSheetState.show()
+                when (state.value.categoriesLoadingState) {
+
+                    LoadingState.Loading -> {
+                        item {
+                            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                CircularProgressIndicator(
+                                    Modifier.size(24.dp),
+                                    color = Color(0xFF2A2F33)
+                                )
+                            }
                         }
                     }
-                }
-                item {
-                    ServiceItemView(
-                        Modifier
-                            .padding(horizontal = 16.dp)
-                            .padding(top = 10.dp),
-                        title = "Льготы и выплаты",
-                        icon = R.drawable.ic_privileges
-                    ) {
-                        viewModel.onSelectServiceClick(Services.Privileges)
-                        viewModel.getPrivileges()
-                        scope.launch {
-                            modalBottomSheetState.show()
+
+                    LoadingState.Success -> {
+                        items(items = state.value.categories ?: listOf()) { category ->
+                            ServiceItemView(
+                                Modifier.padding(horizontal = 16.dp),
+                                title = category.name,
+                                icon = category.id.categoryIcon()
+                            ) {
+                                viewModel.onPrivilegesClick(category)
+                                scope.launch {
+                                    modalBottomSheetState.show()
+                                }
+                            }
+                            Spacer(modifier = Modifier.padding(bottom = 10.dp))
                         }
                     }
+
+                    is LoadingState.Error -> {
+
+                    }
+
+                    LoadingState.Empty -> TODO()
                 }
+
+//                item {
+//                    ServiceItemView(
+//                        Modifier.padding(horizontal = 16.dp),
+//                        title = "Медицина",
+//                        icon = R.drawable.ic_medical
+//                    ) {
+//                        viewModel.onSelectServiceClick(Services.Medical)
+//                        scope.launch {
+//                            modalBottomSheetState.show()
+//                        }
+//                    }
+//                }
+//                item {
+//                    ServiceItemView(
+//                        Modifier
+//                            .padding(horizontal = 16.dp)
+//                            .padding(top = 10.dp),
+//                        title = "Льготы и выплаты",
+//                        icon = R.drawable.ic_privileges
+//                    ) {
+//                        viewModel.onSelectServiceClick(Services.Privileges)
+//                        viewModel.getPrivileges()
+//                        scope.launch {
+//                            modalBottomSheetState.show()
+//                        }
+//                    }
+//                }
             }
         }
     }
