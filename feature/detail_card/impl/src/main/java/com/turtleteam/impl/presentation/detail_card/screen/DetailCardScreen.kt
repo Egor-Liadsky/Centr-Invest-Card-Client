@@ -113,6 +113,7 @@ fun DetailCardScreen(
                     onClick = { context.startActivity(intent) },
                     modifier = Modifier
                         .fillMaxWidth()
+                        .height(50.dp)
                         .padding(horizontal = 16.dp),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -126,8 +127,7 @@ fun DetailCardScreen(
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 14.sp,
                             color = Color.White
-                        ),
-                        modifier = Modifier.padding(vertical = 10.dp)
+                        )
                     )
                 }
             }
