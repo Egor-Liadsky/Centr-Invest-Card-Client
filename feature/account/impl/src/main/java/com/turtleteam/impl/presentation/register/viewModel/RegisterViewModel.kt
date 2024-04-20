@@ -2,6 +2,7 @@ package com.turtleteam.impl.presentation.register.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.turtleteam.api.Settings
 import com.turtleteam.api.data.api.model.UserDTOReceive
 import com.turtleteam.api.data.api.service.AccountService
 import com.turtleteam.core_navigation.error.ErrorService
@@ -14,12 +15,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class RegisterViewModel(
     private val navigator: AccountNavigator,
     private val accountService: AccountService,
     private val errorService: ErrorService
-) : ViewModel() {
+) : ViewModel(), KoinComponent {
+
+    private val settings: Settings by inject()
 
     private val _state = MutableStateFlow(RegisterState())
     val state = _state.asStateFlow()
@@ -40,8 +48,8 @@ class RegisterViewModel(
         _state.update { it.copy(lastNameText = lastName, lastNameError = false) }
     }
 
-    fun onEmailTextChanged(email: String) {
-        _state.update { it.copy(emailText = email, emailError = false) }
+    fun onSurnameTextChanged(email: String) {
+        _state.update { it.copy(surnameText = email, surnameError = false) }
     }
 
     fun onPasswordTextChanged(password: String) {
@@ -53,14 +61,25 @@ class RegisterViewModel(
             exceptionHandleable(
                 executionBlock = {
                     _state.update { it.copy(registerLoadingState = LoadingState.Loading) }
-                    if (!hasEmptyFields())
-                        accountService.registerUser(user)
+                    if (state.value.checkBoxEnabled) {
+                        if (!hasEmptyFields()) {
+                           val response = accountService.registerUser(user)
+                            settings.setToken(response.auth_hash)
+                            val userJson = Json.encodeToString(user)
+                            settings.setUser(userJson)
+                            withContext(Dispatchers.Main) {
+                                navigator.navigateToPincode()
+                            }
+                        }
+                        else {
+                            errorService.showError("Необходимо заполнить все поля")
+                        }
+                    } else {
+                        errorService.showError("Необходимо соглашение с политикой конфиденциальности")
+                    }
                 },
                 failureBlock = { throwable ->
                     _state.update { it.copy(registerLoadingState = LoadingState.Error(throwable.message.toString())) }
-                    errorService.showError(throwable.message.toString())
-                },
-                conflictBlock = {
                     errorService.showError("Пользователь с таким логином или почтой уже существует. Авторизуйтесь")
                 },
                 completionBlock = {
@@ -76,22 +95,19 @@ class RegisterViewModel(
             val firstNameError = it.firstNameText.isBlank()
             val lastNameError = it.lastNameText.isBlank()
             val passwordError = it.passwordText.isBlank()
-            val emailError = it.emailText.isBlank()
+            val emailError = it.surnameText.isBlank()
+
             _state.update {
                 it.copy(
                     loginError = loginError,
                     firstNameError = firstNameError,
                     lastNameError = lastNameError,
                     passwordError = passwordError,
-                    emailError = emailError,
+                    surnameError = emailError,
                 )
             }
             return loginError && firstNameError && lastNameError && passwordError && emailError
         }
-    }
-
-    fun onHidePasswordClick() {
-        _state.update { it.copy(isPasswordHidden = !it.isPasswordHidden) }
     }
 
     fun onCheckBoxClick() {

@@ -29,6 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -37,7 +39,6 @@ import com.turtleteam.core_view.R
 @Composable
 fun CustomTextField(
     modifier: Modifier = Modifier,
-    style: TextStyle = TextStyle.Default,
     backgroundColor: Color = Color.White,
     iconColor: Color = Color(0xFF00602A),
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
@@ -55,7 +56,12 @@ fun CustomTextField(
         value = value,
         onValueChange = onValueChange,
         visualTransformation = visualTransformation,
-        textStyle = style,
+        textStyle = TextStyle(
+            fontSize = 14.sp,
+            lineHeight = 28.sp,
+            fontFamily = FontFamily(Font(R.font.qanelas)),
+            color = Color(0xFF2A2F33)
+        ),
         singleLine = singleLine,
         keyboardActions = keyboardActions,
         keyboardOptions = keyboardOptions,
@@ -83,8 +89,9 @@ fun CustomTextField(
                     if (value.isEmpty())
                         Text(
                             text = placeholder,
-                            fontSize = 12.sp,
+                            fontSize = 14.sp,
                             lineHeight = 28.sp,
+                            fontFamily = FontFamily(Font(R.font.qanelas)),
                             color = Color(0x4D1F1F1F),
                         )
                     innerTextField()

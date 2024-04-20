@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -22,6 +25,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_view.R
 import com.turtleteam.impl.presentation.welcome.viewModel.WelcomeViewModel
 
@@ -51,32 +55,46 @@ fun WelcomeScreen(
         Spacer(modifier = Modifier.weight(1.2f))
 
         Button(
+            onClick = { viewModel.onAuthClick() },
             modifier = Modifier
+                .padding(top = 30.dp)
                 .fillMaxWidth()
-                .height(51.dp),
+                .height(50.dp),
+            shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF04659C)
-            ),
-            onClick = { viewModel.onAuthClick() }
+                containerColor = Color(0xFF2A2F33)
+            )
         ) {
             Text(
-                text = "Авторизация"
+                text = "Авторизация",
+                style = TextStyle(
+                    fontFamily = FontFamily(Font(R.font.qanelas)),
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp,
+                    color = Color.White
+                ),
             )
         }
 
-        OutlinedButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-                .height(51.dp),
+        Button(
             onClick = { viewModel.onRegisterClick() },
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .fillMaxWidth()
+                .height(50.dp),
+            shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF04659C)
+                containerColor = Color(0xFF2A2F33)
             )
         ) {
             Text(
                 text = "Регистрация",
-                modifier = Modifier.padding(vertical = 10.dp)
+                style = TextStyle(
+                    fontFamily = FontFamily(Font(R.font.qanelas)),
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp,
+                    color = Color.White
+                ),
             )
         }
         Spacer(modifier = Modifier.weight(0.25f))

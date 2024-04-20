@@ -40,21 +40,23 @@ class AuthViewModel(
         _state.update { it.copy(passwordText = password) }
     }
 
-    fun navigateToRegister() {
-        navigator.navigateToRegister()
-    }
-
     fun onAuthClick(login: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
             exceptionHandleable(
                 executionBlock = {
                     _state.update { it.copy(authLoadingState = LoadingState.Loading) }
-                    val user = accountService.authUser(login, password)
-                    settings.setToken(user.auth_hash)
-                    val userJson = Json.encodeToString(user)
-                    settings.setUser(userJson)
-                    withContext(Dispatchers.Main) {
-                        navigator.navigateToPincode()
+
+                    if (state.value.loginText.isBlank() || state.value.passwordText.isBlank()) {
+                        errorService.showError("Необходимо заполнить все поля")
+                    } else {
+
+                        val user = accountService.authUser(login, password)
+                        settings.setToken(user.auth_hash)
+                        val userJson = Json.encodeToString(user)
+                        settings.setUser(userJson)
+                        withContext(Dispatchers.Main) {
+                            navigator.navigateToPincode()
+                        }
                     }
                 },
                 failureBlock = { throwable ->

@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -21,7 +23,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -33,172 +37,227 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.api.data.api.model.UserDTOReceive
+import com.turtleteam.core_navigation.error.ErrorService
 import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_view.R
+import com.turtleteam.core_view.view.textfields.CustomTextField
 import com.turtleteam.impl.presentation.register.viewModel.RegisterViewModel
+import kotlinx.coroutines.launch
+import me.onebone.toolbar.CollapsingToolbarScaffold
+import me.onebone.toolbar.ScrollStrategy
+import me.onebone.toolbar.rememberCollapsingToolbarScaffoldState
+import org.koin.androidx.compose.get
+import org.koin.compose.koinInject
 
 @SuppressLint("UnrememberedMutableInteractionSource")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
     viewModel: RegisterViewModel
 ) {
-
+    val errorService: ErrorService = koinInject()
     val state = viewModel.state.collectAsState()
     val focusManager = LocalFocusManager.current
+    val scope = rememberCoroutineScope()
 
-    val scrollBehavior =
-        TopAppBarDefaults.exitUntilCollapsedScrollBehavior(rememberTopAppBarState())
+    var passwordHidden by rememberSaveable { mutableStateOf(true) }
+    var isError by remember { mutableStateOf(false) }
 
-    Column {
-        MediumTopAppBar(
-            title = { Text(text = "Регистрация") },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color(0xFFBEFF6C)
-            ),//TODO fix hardcode
-            navigationIcon = {
-                IconButton(onClick = { viewModel.onBackButtonClick() }) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_back),
-                        contentDescription = null
+    CollapsingToolbarScaffold(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF04659C))
+            .clipToBounds(),
+        toolbarModifier = Modifier.background(Color(0xFF04659C)),
+        state = rememberCollapsingToolbarScaffoldState(),
+        scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
+        toolbar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp)
+                    .background(Color(0xFF04659C))
+                    .pin(),
+                verticalAlignment = Alignment.Bottom
+            ) {
+                Column(
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight(),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    IconButton(onClick = { viewModel.onBackButtonClick() }) {
+                        Icon(
+                            tint = Color.White,
+                            painter = painterResource(id = R.drawable.ic_back),
+                            contentDescription = ""
+                        )
+                    }
+                    Text(
+                        modifier = Modifier.padding(bottom = 30.dp, start = 16.dp),
+                        text = "Регистрация",
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontFamily = FontFamily(Font(R.font.qanelas)),
+                            lineHeight = 28.sp,
+                            fontWeight = FontWeight(600),
+                            color = Color(0xFFFFFFFF),
+                        )
                     )
                 }
-            },
-            scrollBehavior = scrollBehavior
-        )
-
+            }
+        }) {
         LazyColumn(
             Modifier
                 .fillMaxSize()
-                .background(Color.White)
-                .nestedScroll(scrollBehavior.nestedScrollConnection)
-                .pointerInput(Unit) {
-                    detectTapGestures { focusManager.clearFocus() }
-                },
+                .background(Color.White, RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 40.dp)
         ) {
 
             item {
-                OutlinedTextField(
-                    value = state.value.loginText,
-                    singleLine = true,
-                    onValueChange = { viewModel.onLoginTextChanged(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    ),
-                    isError = state.value.loginError,
-                    placeholder = { Text("Введите логин") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
-            item {
-                OutlinedTextField(
-                    value = state.value.firstNameText,
-                    singleLine = true,
-                    onValueChange = { viewModel.onFirstNameTextChanged(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    ),
-                    isError = state.value.firstNameError,
-                    placeholder = { Text("Введите имя") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
-            item {
+                Column(
+                    Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 16.dp)) {
+                    CustomTextField(
+                        value = state.value.lastNameText,
+                        icon = null,
+                        singleLine = true,
+                        onValueChange = { viewModel.onLastNameTextChanged(it) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Email,
+                            imeAction = ImeAction.Next
+                        ),
+                        placeholder = "Фамилия",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp)
+                    )
 
-                OutlinedTextField(
-                    value = state.value.lastNameText,
-                    singleLine = true,
-                    onValueChange = { viewModel.onLastNameTextChanged(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Next
-                    ),
-                    isError = state.value.lastNameError,
-                    placeholder = { Text("Введите фамилию") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
-            item {
-                OutlinedTextField(
-                    value = state.value.emailText,
-                    singleLine = true,
-                    onValueChange = { viewModel.onEmailTextChanged(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Email,
-                        imeAction = ImeAction.Next
-                    ),
-                    isError = state.value.emailError,
-                    placeholder = { Text("Введите почту") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-            }
-            item {
+                    CustomTextField(
+                        value = state.value.firstNameText,
+                        icon = null,
+                        singleLine = true,
+                        onValueChange = { viewModel.onFirstNameTextChanged(it) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Email,
+                            imeAction = ImeAction.Next
+                        ),
+                        placeholder = "Имя",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp)
+                    )
 
-                OutlinedTextField(
-                    value = state.value.passwordText,
-                    visualTransformation = if (state.value.isPasswordHidden) PasswordVisualTransformation() else VisualTransformation.None,
-                    trailingIcon = {
-                        IconButton(onClick = { viewModel.onHidePasswordClick() }) {
-                            val iconPainter =
-                                painterResource(id = if (state.value.isPasswordHidden) R.drawable.ic_visibility else R.drawable.ic_visibility_off)
-                            Icon(painter = iconPainter, contentDescription = null)
-                        }
-                    },
-                    singleLine = true,
-                    onValueChange = { viewModel.onPasswordTextChanged(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password,
-                        imeAction = ImeAction.Done
-                    ),
-                    isError = state.value.passwordError,
-                    keyboardActions = KeyboardActions(onDone = {
-                        focusManager.clearFocus()
-                    }),
-                    placeholder = { Text("Введите пароль") },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
+                    CustomTextField(
+                        value = state.value.surnameText,
+                        icon = null,
+                        singleLine = true,
+                        onValueChange = { viewModel.onSurnameTextChanged(it) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Email,
+                            imeAction = ImeAction.Next
+                        ),
+                        placeholder = "Отчество",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp)
+                    )
+
+                    CustomTextField(
+                        value = state.value.loginText,
+                        icon = null,
+                        singleLine = true,
+                        onValueChange = { viewModel.onLoginTextChanged(it) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Email,
+                            imeAction = ImeAction.Next
+                        ),
+                        placeholder = "Логин",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp)
+                    )
+
+                    CustomTextField(
+                        value = state.value.passwordText,
+                        icon = null,
+                        visualTransformation = if (passwordHidden) PasswordVisualTransformation() else VisualTransformation.None,
+                        trailingIcon = {
+                            IconButton(
+                                modifier = Modifier.size(24.dp),
+                                onClick = { passwordHidden = !passwordHidden }) {
+                                val iconPainter =
+                                    painterResource(id = if (passwordHidden) R.drawable.ic_visibility else R.drawable.ic_visibility_off)
+                                Icon(painter = iconPainter, contentDescription = null)
+                            }
+                        },
+                        singleLine = true,
+                        onValueChange = { viewModel.onPasswordTextChanged(it) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Password,
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(onDone = {
+                            focusManager.clearFocus()
+                        }),
+                        placeholder = "Пароль",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp)
+                    )
+                }
             }
+
             item {
-                Row(
+                Column(
                     Modifier
                         .fillMaxWidth()
-                        .padding(top = 12.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                        .padding(top = 30.dp)
+                        .padding(horizontal = 16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Checkbox(
                             checked = state.value.checkBoxEnabled,
-                            onCheckedChange = { viewModel.onCheckBoxClick() }
+                            onCheckedChange = { viewModel.onCheckBoxClick() },
+                            colors = CheckboxDefaults.colors(
+                                checkedColor = Color(0xFF04659C),
+                            )
                         )
                         Text(
                             text = "Я согласен с Политикой конфиденциальности",
-                            fontSize = 8.sp,
-                            color = Color(0xFF6750A4), //TODO fix hardcode
+                            fontSize = 12.sp,
+                            color = Color(0xFF04659C),
+                            fontFamily = FontFamily(Font(R.font.qanelas)),
                             modifier = Modifier.clickable(
                                 interactionSource = MutableInteractionSource(),
                                 indication = null
@@ -209,20 +268,36 @@ fun RegisterScreen(
                     }
 
                     Button(
-                        modifier = Modifier.width(114.dp),
                         onClick = {
                             focusManager.clearFocus()
-//                            viewModel.onRegisterClick(
-//                                UserDTOReceive(
-//                                    login = state.value.loginText,
-//                                    password = state.value.passwordText
-//                                )
-//                            )
-                        }) {
+                            viewModel.onRegisterClick(
+                                UserDTOReceive(
+                                    state.value.lastNameText,
+                                    state.value.firstNameText,
+                                    state.value.surnameText,
+                                    state.value.loginText,
+                                    state.value.passwordText
+                                )
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth().height(50.dp),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF2A2F33)
+                        )
+                    ) {
                         if (state.value.registerLoadingState == LoadingState.Loading) {
                             CircularProgressIndicator(Modifier.size(24.dp), color = Color.White)
                         } else {
-                            Text(text = "Далее")
+                            Text(
+                                text = "Зарегистррироваться",
+                                style = TextStyle(
+                                    fontFamily = FontFamily(Font(R.font.qanelas)),
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 14.sp,
+                                    color = Color.White
+                                ),
+                            )
                         }
                     }
                 }

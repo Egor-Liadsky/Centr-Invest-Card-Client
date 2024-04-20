@@ -31,6 +31,7 @@ import com.turtleteam.core_navigation.error.register
 import com.turtleteam.core_view.BottomNavigationBar
 import com.turtleteam.core_view.NavigationItem
 import com.turtleteam.core_view.R
+import com.turtleteam.core_view.view.snackbar.DefaultSnackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
@@ -102,10 +103,11 @@ fun MainNavigationScreen(
 //                containerColor = bottomBarColors.first
             )
         },
-        snackbarHost = { snackbarHostStatet ->
-            SnackbarHost(snackbarHostStatet, Modifier.zIndex(2f)) {
-                Snackbar(modifier = Modifier.zIndex(2f), snackbarData = it)
-            }
+        snackbarHost = { snackbarHostState ->
+            DefaultSnackbar(Modifier.zIndex(2f), snackbarHostState = snackbarHostState)
+//            SnackbarHost(snackbarHostStatet, Modifier.zIndex(2f)) {
+//                Snackbar(modifier = Modifier.zIndex(2f), snackbarData = it)
+//            }
         }
     ) { paddingValues ->
         val bottomNavigationViewModifier =

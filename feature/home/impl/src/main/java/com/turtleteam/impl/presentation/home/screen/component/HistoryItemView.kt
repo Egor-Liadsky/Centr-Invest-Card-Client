@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import com.turtleteam.api.api.model.FullPrivileges
 import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_view.R
+import com.turtleteam.core_view.view.cards.ServiceHistoryItemView
 
 @Composable
 fun HistorySheetLayout(
@@ -77,7 +78,7 @@ fun HistorySheetLayout(
                 }
             } else {
                 items(items = data) {
-                    HistoryItemView(
+                    ServiceHistoryItemView(
                         title = it.name,
                         description = it.legend,
                         history = it.history,
@@ -85,82 +86,6 @@ fun HistorySheetLayout(
                     )
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun HistoryItemView(
-    modifier: Modifier = Modifier,
-    title: String,
-    description: String,
-    history: String,
-    icon: Int,
-) {
-
-    Card(
-        modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.elevatedCardElevation(0.dp),
-    ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = icon),
-                    contentDescription = null,
-                    modifier = Modifier.size(30.dp)
-                )
-
-                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                    Text(
-                        text = title,
-                        style = TextStyle(
-                            fontFamily = FontFamily(Font(R.font.qanelas)),
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF2A2F33)
-                        ),
-                    )
-                    Text(
-                        text = description,
-                        style = TextStyle(
-                            fontFamily = FontFamily(Font(R.font.qanelas)),
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF919191)
-                        ),
-                    )
-
-                    Text(
-                        text = history,
-                        style = TextStyle(
-                            fontFamily = FontFamily(Font(R.font.qanelas)),
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF919191)
-                        ),
-                    )
-                }
-            }
-
-            Text(
-                text = "30 ₽",
-                style = TextStyle(
-                    fontFamily = FontFamily(Font(R.font.qanelas)),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight(600),
-                    color = Color(0xFF2A2F33)
-                ),
-            )
         }
     }
 }

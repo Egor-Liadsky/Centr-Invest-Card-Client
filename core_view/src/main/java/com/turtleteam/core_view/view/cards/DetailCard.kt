@@ -139,3 +139,73 @@ fun DetailCardInfo(
         }
     }
 }
+
+@SuppressLint("SimpleDateFormat", "UnrememberedMutableInteractionSource")
+@Composable
+fun EmptyCardInfo(
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        Modifier
+            .then(modifier)
+            .height(194.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .drawBehind {
+                drawCircle(
+                    color = Color(0xFF049C6B),
+                    center = Offset(y = size.height * 1.5f, x = size.width * 0.3f),
+                    radius = 800f,
+                    blendMode = BlendMode.Overlay
+                )
+            }
+
+    ) {
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_card_background),
+            contentDescription = null,
+            Modifier.fillMaxSize()
+        )
+
+        Column {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 12.dp, end = 15.dp, top = 21.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "КАРТА\nРОСТОВЧАНИНА",
+                    style = TextStyle(
+                        fontFamily = FontFamily(Font(R.font.despairdisplay_bold)),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = Color.White
+                    ),
+                )
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 26.dp, start = 26.dp, end = 26.dp, bottom = 22.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                Column {
+                    Text(
+                        text = "Необходимо оформить",
+                        style = TextStyle(
+                            fontFamily = FontFamily(Font(R.font.qanelas)),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.White
+                        ),
+                    )
+                }
+            }
+        }
+    }
+}
