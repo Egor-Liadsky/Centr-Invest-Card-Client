@@ -1,11 +1,8 @@
 package com.turtleteam.impl.navigation
 
 import androidx.navigation.NavController
-import com.turtleteam.api.navigation.ProfileNavigation
+import com.turtleteam.core_navigation.BaseNavigator
 
-class ProfileNavigator (
-    private val profileNavigation: ProfileNavigation,
-    private val navController: NavController
-) {
-    private val baseRoute = profileNavigation.baseRoute
+class ProfileNavigator(private val navController: NavController): BaseNavigator(navController) {
+
 }

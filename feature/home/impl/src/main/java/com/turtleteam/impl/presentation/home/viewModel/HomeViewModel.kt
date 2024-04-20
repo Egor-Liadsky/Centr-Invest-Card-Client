@@ -1,13 +1,11 @@
 package com.turtleteam.impl.presentation.home.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.turtleteam.api.Settings
 import com.turtleteam.api.api.model.FullPrivileges
 import com.turtleteam.api.api.repository.HomeRepository
 import com.turtleteam.api.data.api.model.User
-import com.turtleteam.api.model.PaymentType
 import com.turtleteam.core_navigation.error.ErrorService
 import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_network.error.exceptionHandleable
@@ -63,6 +61,10 @@ class HomeViewModel(
 
     fun navigateToDetailCard(cardId: String) {
         navigator.navigateToDetailCard(cardId)
+    }
+
+    fun navigateToProfile() {
+        navigator.navigateToProfile()
     }
 
     fun getPrivileges() {

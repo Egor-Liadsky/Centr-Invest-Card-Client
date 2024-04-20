@@ -30,9 +30,9 @@ include ':feature:home:api'
 include ':feature:home:impl'
 
 //Profile
-include(":feature:profile")
-include ':feature:profile:api'
-include ':feature:profile:impl'
+include(":feature:options")
+include ':feature:options:api'
+include ':feature:options:impl'
 
 //Settings
 include(":feature:settings")
@@ -50,9 +50,9 @@ include ':feature:speaker:api'
 include ':feature:speaker:impl'
 
 //Payment
-include(":feature:payment")
-include ':feature:payment:api'
-include ':feature:payment:impl'
+include(":feature:profile")
+include ':feature:profile:api'
+include ':feature:profile:impl'
 
 //Detail Card
 include ':feature:detail_card'

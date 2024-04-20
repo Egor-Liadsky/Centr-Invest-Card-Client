@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.TextButton
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -188,13 +189,12 @@ fun HomeScreen(
                         )
                     }
                 }
-                Row(
+                TextButton(
                     modifier = Modifier
                         .pin()
-                        .fillMaxWidth()
                         .height(60.dp)
                         .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                    onClick = { viewModel.navigateToProfile() }
                 ) {
                     Icon(
                         modifier = Modifier

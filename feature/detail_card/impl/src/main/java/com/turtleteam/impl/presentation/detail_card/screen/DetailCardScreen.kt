@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R
+import com.turtleteam.core_view.view.cards.DetailCardInfo
 import com.turtleteam.core_view.view.hiddenDate
 import com.turtleteam.core_view.view.hideCardNum
 import com.turtleteam.impl.presentation.detail_card.viewModel.DetailCardViewModel
@@ -56,24 +57,24 @@ fun DetailCardScreen(
     CollapsingToolbarScaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFE8F5E9))
+            .background(Color(0xFF04659C))
             .clipToBounds(),
         state = rememberCollapsingToolbarScaffoldState(),
         scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
         toolbar = {
             val scale = (progress.floatValue * 10f) * 0.02f
             IconButton(
-                modifier = Modifier
-                    .pin(),
+                modifier = Modifier.pin(),
                 onClick = { viewModel.onBackButtonClick() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_back),
                     contentDescription = null,
-                    Modifier.size(24.dp)
+                    Modifier.size(24.dp),
+                    tint = Color.White
                 )
             }
 
-            CardInfo(
+            DetailCardInfo(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = (screenWidth * 0.1f).dp)
@@ -83,8 +84,8 @@ fun DetailCardScreen(
                     .progress {
                         progress.floatValue = it
                     },
-                name = "Егор Лядский"
             )
+
         }
     ) {
         LazyColumn(
@@ -94,16 +95,6 @@ fun DetailCardScreen(
                 .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
             contentPadding = PaddingValues(vertical = 24.dp)
         ) {
-
-            item {
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp)
-                ) {
-                    LimitView(limitBegin = 100, limitEnd = 70)
-                }
-            }
 
             item {
                 Column(

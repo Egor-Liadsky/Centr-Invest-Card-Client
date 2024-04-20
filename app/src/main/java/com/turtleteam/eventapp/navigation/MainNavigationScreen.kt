@@ -19,13 +19,13 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.turtleteam.api.PaymentNavigation
+import com.turtleteam.api.ProfileNavigation
 import com.turtleteam.api.Settings
 import com.turtleteam.api.navigation.AccountNavigation
 import com.turtleteam.api.navigation.AssistantNavigation
 import com.turtleteam.api.navigation.DetailCardNavigation
 import com.turtleteam.api.navigation.HomeNavigation
-import com.turtleteam.api.navigation.ProfileNavigation
+import com.turtleteam.api.navigation.OptionNavigation
 import com.turtleteam.core_navigation.error.ErrorService
 import com.turtleteam.core_navigation.error.register
 import com.turtleteam.core_view.BottomNavigationBar
@@ -44,10 +44,10 @@ fun MainNavigationScreen(
 ) {
 
     val homeFeature: HomeNavigation = koinInject()
-    val profileFeature: ProfileNavigation = koinInject()
+    val optionFeature: OptionNavigation = koinInject()
     val accountFeature: AccountNavigation = koinInject()
     val assistantFeature: AssistantNavigation = koinInject()
-    val paymentFeature: PaymentNavigation = koinInject()
+    val profileFeature: ProfileNavigation = koinInject()
     val detailCardFeature: DetailCardNavigation = koinInject()
 
     val scaffoldState: ScaffoldState = rememberScaffoldState()
@@ -68,17 +68,12 @@ fun MainNavigationScreen(
         NavigationItem(
             route = homeFeature.baseRoute,
             label = R.string.bottom_navigation_view_home,
-            icon = R.drawable.ic_home
+            icon = R.drawable.home
         ),
-//        NavigationItem(
-//            route = assistantFeature.baseRoute,
-//            label = R.string.bottom_navigation_view_assistant,
-//            icon = R.drawable.ic_assistant
-//        ),
         NavigationItem(
-            route = profileFeature.baseRoute,
-            label = R.string.bottom_navigation_view_profile,
-            icon = R.drawable.ic_profile
+            route = optionFeature.baseRoute,
+            label = R.string.bottom_navigation_view_settings,
+            icon = R.drawable.setting
         )
     )
 
@@ -124,9 +119,9 @@ fun MainNavigationScreen(
         ) {
             register(homeFeature, navController, bottomNavigationViewModifier)
             register(accountFeature, navController, bottomNavigationViewModifier)
-            register(profileFeature, navController, bottomNavigationViewModifier)
+            register(optionFeature, navController, bottomNavigationViewModifier)
             register(assistantFeature, navController, bottomNavigationViewModifier)
-            register(paymentFeature, navController)
+            register(profileFeature, navController)
             register(detailCardFeature, navController)
         }
     }

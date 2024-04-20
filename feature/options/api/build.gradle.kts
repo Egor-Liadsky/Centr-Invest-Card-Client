@@ -4,8 +4,8 @@ plugins {
 }
 
 android {
-    namespace = "com.turtleteam.impl"
-    compileSdk = 33
+    namespace = "com.turtleteam.api"
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -13,12 +13,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
-    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -39,16 +34,5 @@ android {
 
 dependencies {
 
-    implementation(project(":feature:home:api"))
-    implementation(project(":feature:profile:api"))
-    implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
-
-    implementation(Dependencies.Android.androidCore)
-    implementation(Dependencies.Android.appcompat)
-    implementation(Dependencies.JetpackCompose.material)
-    implementation(Dependencies.JetpackCompose.activityCompose)
-    implementation(Dependencies.JetpackCompose.ui)
-    implementation(Dependencies.JetpackCompose.navigation)
-    implementation(Dependencies.DI.koin)
 }
