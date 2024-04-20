@@ -16,7 +16,7 @@ val optionModule = module {
         OptionNavigator(get(), navController.get())
     }
     viewModel { navigator ->
-        OptionsViewModel(navigator.get(), get())
+        OptionsViewModel(navigator.get(), get(), get(), get())
     }
 
     viewModel { navigator ->
