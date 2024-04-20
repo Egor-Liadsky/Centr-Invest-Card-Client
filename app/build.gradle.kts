@@ -56,9 +56,6 @@ dependencies {
     implementation(project(":feature:home:api"))
     implementation(project(":feature:home:impl"))
 
-    implementation(project(":feature:event:api"))
-    implementation(project(":feature:event:impl"))
-
     implementation(project(":feature:profile:api"))
     implementation(project(":feature:profile:impl"))
 

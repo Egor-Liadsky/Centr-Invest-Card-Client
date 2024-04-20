@@ -212,12 +212,12 @@ fun RegisterScreen(
                         modifier = Modifier.width(114.dp),
                         onClick = {
                             focusManager.clearFocus()
-                            viewModel.onRegisterClick(
-                                UserDTOReceive(
-                                    login = state.value.loginText,
-                                    password = state.value.passwordText
-                                )
-                            )
+//                            viewModel.onRegisterClick(
+//                                UserDTOReceive(
+//                                    login = state.value.loginText,
+//                                    password = state.value.passwordText
+//                                )
+//                            )
                         }) {
                         if (state.value.registerLoadingState == LoadingState.Loading) {
                             CircularProgressIndicator(Modifier.size(24.dp), color = Color.White)

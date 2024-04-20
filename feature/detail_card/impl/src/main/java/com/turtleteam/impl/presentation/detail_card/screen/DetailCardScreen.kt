@@ -83,7 +83,7 @@ fun DetailCardScreen(
                     .progress {
                         progress.floatValue = it
                     },
-                name = "${state.value.user?.user?.firstname} ${state.value.user?.user?.lastname}"
+                name = "Егор Лядский"
             )
         }
     ) {

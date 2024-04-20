@@ -54,18 +54,6 @@ class HomeViewModel(
         }
     }
 
-    fun navigateToWelcome() {
-        navigator.navigateToWelcome()
-    }
-
-    fun navigateToAssistant() {
-        navigator.navigateToAssistant()
-    }
-
-    fun navigateToPayment(paymentType: PaymentType) {
-        navigator.navigateToPayment(paymentType)
-    }
-
     fun navigateToDetailCard(cardId: String) {
         navigator.navigateToDetailCard(cardId)
     }

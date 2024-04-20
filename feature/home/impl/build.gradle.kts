@@ -54,6 +54,7 @@ dependencies {
     implementation(Dependencies.Android.androidCore)
     implementation(Dependencies.Android.appcompat)
     implementation(Dependencies.JetpackCompose.material)
+    implementation("androidx.compose.material:material:1.6.5")
     implementation(Dependencies.JetpackCompose.activityCompose)
     implementation(Dependencies.JetpackCompose.ui)
     implementation(Dependencies.JetpackCompose.navigation)

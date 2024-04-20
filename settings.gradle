@@ -29,11 +29,6 @@ include(":feature:home")
 include ':feature:home:api'
 include ':feature:home:impl'
 
-//Event
-include(":feature:event")
-include ':feature:event:api'
-include ':feature:event:impl'
-
 //Profile
 include(":feature:profile")
 include ':feature:profile:api'

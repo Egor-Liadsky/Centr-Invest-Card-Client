@@ -37,8 +37,8 @@ fun BottomNavigationBar(
     currentRoute: String?,
     routes: List<NavigationItem>,
     onClick: (route: String) -> Unit,
-    containerColor: Color = Color(0xFFE8F5E9),
-    indicatorColor: Color = Color(0xFFA5D6A7)
+    containerColor: Color = Color.White,
+    indicatorColor: Color = Color(0xFFB0CEFF)
 ) {
     var lastSelectedBtn by rememberSaveable { mutableStateOf(currentRoute) }
 

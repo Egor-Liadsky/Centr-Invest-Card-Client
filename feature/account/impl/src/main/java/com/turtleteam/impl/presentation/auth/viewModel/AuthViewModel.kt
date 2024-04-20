@@ -48,11 +48,11 @@ class AuthViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             exceptionHandleable(
                 executionBlock = {
-//                    _state.update { it.copy(authLoadingState = LoadingState.Loading) }
-//                    val user = accountService.authUser(login, password)
-//                    settings.setToken(user.token)
-//                    val userJson = Json.encodeToString(user)
-//                    settings.setUser(userJson)
+                    _state.update { it.copy(authLoadingState = LoadingState.Loading) }
+                    val user = accountService.authUser(login, password)
+                    settings.setToken(user.auth_hash)
+                    val userJson = Json.encodeToString(user)
+                    settings.setUser(userJson)
                     withContext(Dispatchers.Main) {
                         navigator.navigateToPincode()
                     }

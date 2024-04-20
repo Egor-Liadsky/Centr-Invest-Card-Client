@@ -3,6 +3,7 @@ package com.turtleteam.core_view.view.textfields
 import android.widget.Space
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -48,7 +50,6 @@ fun CustomTextField(
     value: String,
     onValueChange: (String) -> Unit
 ) {
-    val shape = RoundedCornerShape(10.dp)
     BasicTextField(
         modifier = modifier,
         value = value,
@@ -62,7 +63,7 @@ fun CustomTextField(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .shadow(4.dp, shape)
+                    .border(1.dp, Color(0xFFD9D9D9), shape = RoundedCornerShape(10.dp))
                     .background(backgroundColor)
                     .padding(horizontal = 10.dp, vertical = 13.dp),
                 verticalAlignment = Alignment.CenterVertically,

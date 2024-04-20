@@ -118,7 +118,7 @@ fun ProfileScreen(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                text = "${state.value.user?.user?.firstname} ${state.value.user?.user?.lastname}",
+                text = "Егор Лядский",
                 fontSize = 22.sp,
                 lineHeight = 28.sp,
                 fontWeight = FontWeight(600),

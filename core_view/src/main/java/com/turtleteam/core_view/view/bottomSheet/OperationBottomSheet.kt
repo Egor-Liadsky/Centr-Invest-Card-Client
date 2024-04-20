@@ -108,61 +108,6 @@ fun OperationBottomSheet(operation: Operation, showBottomSheet: MutableState<Boo
                             .background(Color(0xFFEFEFEF))
                             .padding(horizontal = 70.dp, vertical = 14.dp)
                     )
-
-                    Row(Modifier.padding(top = 24.dp)) {
-                        RefillBill(
-                            bankName = operation.bankRecipient,
-                            numberCode = operation.numberReceipt
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun RefillBill(bankName: String, numberCode: String) {
-
-    Card(
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 4.dp
-        ),
-    ) {
-        Column(Modifier.padding(horizontal = 10.dp, vertical = 16.dp)) {
-            Text(
-                text = "Пополнение счета", style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                )
-            )
-            Row(
-                Modifier.padding(top = 24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_card), contentDescription = null,
-                    modifier = Modifier.size(width = 44.dp, height = 28.dp)
-                )
-                Spacer(modifier = Modifier.padding(end = 16.dp))
-                Column {
-                    Text(
-                        text = bankName, style = TextStyle(
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.End
-                        )
-                    )
-                    Text(
-                        text = numberCode, style = TextStyle(
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.End
-                        ),
-                        modifier = Modifier.padding(top = 7.dp)
-                    )
                 }
             }
         }

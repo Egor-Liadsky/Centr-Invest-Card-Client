@@ -39,6 +39,7 @@ android {
 dependencies {
 
     implementation(Dependencies.JetpackCompose.material)
+    implementation("androidx.compose.material:material:1.6.5")
     implementation(Dependencies.JetpackCompose.ui)
     implementation(Dependencies.JetpackCompose.uiToolingPreview)
 }
