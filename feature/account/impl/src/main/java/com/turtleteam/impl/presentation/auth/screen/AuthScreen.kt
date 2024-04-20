@@ -73,9 +73,9 @@ fun AuthScreen(
     CollapsingToolbarScaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF049C6B))
+            .background(Color(0xFF04659C))
             .clipToBounds(),
-        toolbarModifier = Modifier.background(Color(0xFF049C6B)),
+        toolbarModifier = Modifier.background(Color(0xFF04659C)),
         state = rememberCollapsingToolbarScaffoldState(),
         scrollStrategy = ScrollStrategy.ExitUntilCollapsed,
         toolbar = {
@@ -83,7 +83,7 @@ fun AuthScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(100.dp)
-                    .background(Color(0xFF049C6B))
+                    .background(Color(0xFF04659C))
                     .pin(),
                 verticalAlignment = Alignment.Bottom
             ) {
@@ -93,7 +93,7 @@ fun AuthScreen(
                         .fillMaxHeight(),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    IconButton(onClick = { viewModel.onBackButtonClick()}) {
+                    IconButton(onClick = { viewModel.onBackButtonClick() }) {
                         Icon(
                             tint = Color.White,
                             painter = painterResource(id = R.drawable.ic_back),
@@ -108,19 +108,10 @@ fun AuthScreen(
                             lineHeight = 28.sp,
                             fontWeight = FontWeight(600),
                             color = Color(0xFFFFFFFF),
-
-                            )
+                        )
                     )
                 }
-                Image(
-                    painter = painterResource(id = R.drawable.ic_turtle_3),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .height(90.dp)
-                        .offset(y = 8.dp)
-                )
             }
-
         }) {
         LazyColumn(
             Modifier
@@ -132,7 +123,9 @@ fun AuthScreen(
 
             item {
                 Text(
-                    modifier = Modifier.padding(horizontal = 16.dp).padding(top = 16.dp),
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 16.dp),
                     text = "Для входа в приложение введите логин и пароль",
                     style = TextStyle(
                         fontSize = 20.sp,
@@ -154,7 +147,7 @@ fun AuthScreen(
                             keyboardType = KeyboardType.Email,
                             imeAction = ImeAction.Next
                         ),
-                        placeholder ="Введите логин или почту",
+                        placeholder = "Введите логин или почту",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 24.dp)
@@ -182,7 +175,7 @@ fun AuthScreen(
                         keyboardActions = KeyboardActions(onDone = {
                             focusManager.clearFocus()
                         }),
-                        placeholder ="Введите пароль",
+                        placeholder = "Введите пароль",
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 24.dp)
@@ -194,7 +187,7 @@ fun AuthScreen(
                             .fillMaxWidth()
                             .height(51.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF049C6B),
+                            containerColor = Color(0xFF04659C),
                             contentColor = Color.White
                         ),
                         onClick = {

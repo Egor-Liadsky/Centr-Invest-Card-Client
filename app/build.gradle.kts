@@ -56,11 +56,8 @@ dependencies {
     implementation(project(":feature:home:api"))
     implementation(project(":feature:home:impl"))
 
-    implementation(project(":feature:event:api"))
-    implementation(project(":feature:event:impl"))
-
-    implementation(project(":feature:profile:api"))
-    implementation(project(":feature:profile:impl"))
+    implementation(project(":feature:options:api"))
+    implementation(project(":feature:options:impl"))
 
 
     implementation(project(":feature:assistant:api"))
@@ -74,8 +71,8 @@ dependencies {
     implementation(project(":feature:speaker:api"))
     implementation(project(":feature:speaker:impl"))
 
-    implementation(project(":feature:payment:api"))
-    implementation(project(":feature:payment:impl"))
+    implementation(project(":feature:profile:api"))
+    implementation(project(":feature:profile:impl"))
 
     implementation(project(":feature:detail_card:api"))
     implementation(project(":feature:detail_card:impl"))

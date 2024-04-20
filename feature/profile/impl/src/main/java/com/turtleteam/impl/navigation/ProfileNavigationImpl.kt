@@ -4,7 +4,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.turtleteam.api.navigation.ProfileNavigation
+import com.turtleteam.api.ProfileNavigation
 import com.turtleteam.impl.presentation.profile.screen.ProfileScreen
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.koinInject
@@ -19,11 +19,10 @@ class ProfileNavigationImpl : ProfileNavigation {
         navController: NavController,
         modifier: Modifier
     ) {
-        navGraphBuilder.composable(route = baseRoute) {
+        navGraphBuilder.composable(route = baseRoute) { args ->
             val navigator =
                 koinInject<ProfileNavigator>(parameters = { parametersOf(navController) })
             ProfileScreen(
-                modifier,
                 viewModel = koinViewModel(parameters = { parametersOf(navigator) })
             )
         }

@@ -1,19 +1,20 @@
 package com.turtleteam.core_view.view.cards
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,26 +25,24 @@ import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R
-import java.text.SimpleDateFormat
 
-@SuppressLint("SimpleDateFormat")
+@SuppressLint("SimpleDateFormat", "UnrememberedMutableInteractionSource")
 @Composable
 fun DetailCardInfo(
     modifier: Modifier = Modifier,
-    name: String,
-    cardNumber: String,
-    date: String,
     onClick: (() -> Unit)? = null
 ) {
-    Column(
+    Box(
         Modifier
             .then(modifier)
+            .height(194.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(Color(0xFF4DB45F))
             .drawBehind {
                 drawCircle(
                     color = Color(0xFF049C6B),
@@ -60,73 +59,82 @@ fun DetailCardInfo(
                 onClick?.invoke()
             }
     ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(start = 12.dp, end = 15.dp, top = 21.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_plata), contentDescription = null,
-                modifier = Modifier.size(width = 60.dp, height = 40.dp),
-                tint = Color.White
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.ic_mir), contentDescription = null,
-                modifier = Modifier.size(width = 62.dp, height = 18.dp),
-                tint = Color.White
-            )
-        }
 
+        Image(
+            painter = painterResource(id = R.drawable.ic_card_background),
+            contentDescription = null,
+            Modifier.fillMaxSize()
+        )
 
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 26.dp, start = 26.dp)
-        ) {
-            Text(
-                text = "Номер карты",
-                style = TextStyle(
-                    fontSize = 10.sp,
-                    fontWeight = FontWeight.Normal,
-                    color = Color.White
-                ),
-            )
-            Text(
-                text = cardNumber,
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-            )
-        }
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 26.dp, start = 26.dp, end = 26.dp, bottom = 22.dp)
-        ) {
-            val formattedDate = date.replace(Regex("""(\d{4})-(\d{2})-(\d{2})"""), "$3/$2")
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Column {
+        Column {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 12.dp, end = 15.dp, top = 21.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Text(
-                    text = "Дата истечения",
+                    text = "КАРТА\nРОСТОВЧАНИНА",
                     style = TextStyle(
-                        fontSize = 10.sp,
+                        fontFamily = FontFamily(Font(R.font.despairdisplay_bold)),
+                        fontSize = 14.sp,
                         fontWeight = FontWeight.Normal,
                         color = Color.White
                     ),
                 )
-                Text(
-                    text = formattedDate,
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 26.dp, start = 26.dp, end = 26.dp, bottom = 22.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                Column {
+                    Text(
+                        text = "Имя владельца",
+                        style = TextStyle(
+                            fontFamily = FontFamily(Font(R.font.qanelas)),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.White
+                        ),
                     )
-                )
+                    Text(
+                        text = "Daria Arkhipova",
+                        style = TextStyle(
+                            fontFamily = FontFamily(Font(R.font.qanelas)),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.White
+                        )
+                    )
+                }
+
+
+                Column {
+                    Text(
+                        text = "Баланс",
+                        style = TextStyle(
+                            fontFamily = FontFamily(Font(R.font.qanelas)),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = Color.White
+                        ),
+                    )
+                    Text(
+                        text = "10 000₽",
+                        style = TextStyle(
+                            fontFamily = FontFamily(Font(R.font.qanelas)),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.White
+                        )
+                    )
+                }
             }
         }
     }

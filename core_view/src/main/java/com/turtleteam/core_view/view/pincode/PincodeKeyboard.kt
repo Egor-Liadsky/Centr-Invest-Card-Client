@@ -56,7 +56,7 @@ fun PincodeKeyboard(
 
             PincodeButton(
                 enabled = onDoneClick != null,
-                backGroundColor = if (onDoneClick != null) Color(0xFF4CAF50) else Color.Transparent,
+                backGroundColor = if (onDoneClick != null) Color(0xFF04659C) else Color.Transparent,
                 onClick = { onDoneClick?.invoke() }
             ) {
                 if (onDoneClick != null)
@@ -102,7 +102,7 @@ fun PincodeButton(
             .clip(CircleShape)
             .clickable(
                 interactionSource = MutableInteractionSource(),
-                indication = rememberRipple(color = Color(0xFF4CAF50)),
+                indication = rememberRipple(color = Color(0xFF04659C)),
                 enabled = enabled
             ) {
                 onClick()
@@ -112,10 +112,3 @@ fun PincodeButton(
         content()
     }
 }
-
-//@Preview
-//@Composable
-//fun PreviewPincodeKeyboard() {
-//    PincodeKeyboard()
-//}
-

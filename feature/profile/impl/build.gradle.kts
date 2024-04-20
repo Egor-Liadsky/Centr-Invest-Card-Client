@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.turtleteam.impl"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         minSdk = 24
@@ -38,12 +38,12 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":feature:home:api"))
     implementation(project(":feature:profile:api"))
-    implementation(project(":feature:account:api"))
-    implementation(project(":feature:settings:api"))
+    implementation(project(Modules.core_view))
     implementation(project(Modules.core_navigation))
 
-    implementation(Dependencies.Data.ktorJson)
     implementation(Dependencies.Android.androidCore)
     implementation(Dependencies.Android.appcompat)
     implementation(Dependencies.JetpackCompose.material)
@@ -51,5 +51,4 @@ dependencies {
     implementation(Dependencies.JetpackCompose.ui)
     implementation(Dependencies.JetpackCompose.navigation)
     implementation(Dependencies.DI.koin)
-    implementation(project(mapOf("path" to ":core_view")))
 }

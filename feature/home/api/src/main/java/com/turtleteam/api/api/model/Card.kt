@@ -3,31 +3,20 @@ package com.turtleteam.api.api.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Card (
-    val numCards: String,
-    val dateClose: String,
-    val code: String,
-    val limitBegin: String,
-    val limitEnd: String,
-    val bill: Bill
+data class Card(
+    val id: Int,
+    val key: String
 )
 
 @Serializable
-data class Bill(
-    val title: String,
-    val owner: String,
-    val number: String,
-    val dateOpen: String,
-    val agreement: String,
-    val remainder: String
+data class ShortPrivileges(
+    val result: List<String>
 )
 
 @Serializable
-data class CardShort(
-    val code: Int,
-    val dateClose: String,
-    val id: String,
-    val number: String,
-    val paymentPeriodBegin: String,
-    val paymentPeriodEnd: String
+data class FullPrivileges(
+    val privileges_prefix: String,
+    val name: String,
+    val legend: String,
+    val history: String,
 )

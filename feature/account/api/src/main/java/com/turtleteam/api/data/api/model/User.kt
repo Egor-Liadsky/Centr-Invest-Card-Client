@@ -2,6 +2,7 @@ package com.turtleteam.api.data.api.model
 
 import kotlinx.serialization.Serializable
 
+@Serializable
 data class UserDTOReceive(
     val username: String,
     val password: String,

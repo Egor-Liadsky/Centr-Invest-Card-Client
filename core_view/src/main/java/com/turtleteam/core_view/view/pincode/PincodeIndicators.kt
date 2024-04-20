@@ -21,7 +21,7 @@ fun PincodeIndicators(
     pincode: Int,
     length: Int,
 ){
-    val enabledColor = Color(0xFF4CAF50)
+    val enabledColor = Color(0xFF04659C)
     val disabledColor = Color(0xFFEFEFEF)
     Row(
         modifier = modifier,
