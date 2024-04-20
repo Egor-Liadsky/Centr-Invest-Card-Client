@@ -2,6 +2,7 @@ package com.turtleteam.eventapp
 
 import android.app.Application
 import com.turtleteam.eventapp.di.commonModule
+import com.turtleteam.eventapp.di.dataModule.profileDataModule
 import com.turtleteam.eventapp.di.featureModule.accountModule
 import com.turtleteam.eventapp.di.featureModule.assistantModule
 import com.turtleteam.eventapp.di.featureModule.detailCardModule
@@ -23,7 +24,7 @@ class CentInvestApp : Application() {
             androidLogger(Level.DEBUG)
             modules(
                 commonModule, detailCardModule, accountModule, homeModule, profileModule,
-                settingsModule, assistantModule, speakerModule, optionModule
+                settingsModule, assistantModule, speakerModule, optionModule, profileDataModule
             )
         }
     }

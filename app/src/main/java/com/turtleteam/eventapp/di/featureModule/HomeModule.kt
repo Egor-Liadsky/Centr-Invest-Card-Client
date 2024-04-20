@@ -24,6 +24,6 @@ val homeModule = module {
         HomeNavigator(get(), get(), get(), get(), get(), navController.get())
     }
     viewModel { navigator ->
-        HomeViewModel(navigator.get(), get(), get(), get())
+        HomeViewModel(navigator.get(), get(), get(), get(), get())
     }
 }

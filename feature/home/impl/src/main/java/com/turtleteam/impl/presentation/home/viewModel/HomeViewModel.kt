@@ -11,6 +11,8 @@ import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_network.error.exceptionHandleable
 import com.turtleteam.impl.navigation.HomeNavigator
 import com.turtleteam.impl.presentation.home.state.HomeState
+import com.whatrushka.api.profile.ProfileService
+import com.whatrushka.api.profile.models.ProfileData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,17 +26,33 @@ class HomeViewModel(
     private val navigator: HomeNavigator,
     private val homeRepository: HomeRepository,
     private val settings: Settings,
-    private val errorService: ErrorService
+    private val errorService: ErrorService,
+    private val profileService: ProfileService
 ) : ViewModel() {
-
     private val _state = MutableStateFlow(HomeState())
     val state = _state.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            if (settings.getToken() != null) {
+            val token = settings.getToken()
+            if (token != null) {
                 exceptionHandleable(
                     executionBlock = {
+                        val userProfile = homeRepository.getProfile(token)
+                        profileService.saveUserProfile(
+                            ProfileData(
+                                name = userProfile.name,
+                                surname = userProfile.surname,
+                                patronymic = userProfile.patronymic,
+                                nickname = userProfile.username,
+                                cash = userProfile.cash
+                            )
+                        )
+
+                        _state.update {
+                            it.copy(userProfile = profileService.getUserProfile())
+                        }
+
                         val user = async {
                             kotlin.runCatching {
                                 val userStr = settings.getUser()

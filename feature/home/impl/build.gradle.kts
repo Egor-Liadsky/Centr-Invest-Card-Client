@@ -59,4 +59,5 @@ dependencies {
     implementation(Dependencies.JetpackCompose.ui)
     implementation(Dependencies.JetpackCompose.navigation)
     implementation(Dependencies.DI.koin)
+    implementation(project(":buildLogic:api"))
 }
