@@ -1,6 +1,8 @@
 package com.turtleteam.impl.presentation.register.screen
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -33,6 +35,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MediumTopAppBar
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
@@ -50,6 +53,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -85,6 +89,12 @@ fun RegisterScreen(
     val state = viewModel.state.collectAsState()
     val focusManager = LocalFocusManager.current
     val scope = rememberCoroutineScope()
+
+    val context = LocalContext.current
+    val intent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse("https://esia.gosuslugi.ru/login/registration/privacy-policies")
+    )
 
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
     var isError by remember { mutableStateOf(false) }
@@ -262,7 +272,7 @@ fun RegisterScreen(
                                 interactionSource = MutableInteractionSource(),
                                 indication = null
                             ) {
-                                Log.e("ajshd", "click")
+                                context.startActivity(intent)
                             }
                         )
                     }
@@ -280,7 +290,9 @@ fun RegisterScreen(
                                 )
                             )
                         },
-                        modifier = Modifier.fillMaxWidth().height(50.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF2A2F33)
