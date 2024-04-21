@@ -1,5 +1,6 @@
 package com.turtleteam.impl.data.api.repository
 
+import android.util.Log
 import com.turtleteam.api.Settings
 import com.turtleteam.api.api.model.Card
 import com.turtleteam.api.api.model.Category
@@ -58,6 +59,9 @@ class HomeRepositoryImpl(httpClient: HttpClient) : HomeRepository, BaseRepositor
                 "auth_token" to token
             )
         )
+
+        Log.d("m", response)
+
         return Json.decodeFromString<UserProfileResponse>(response).result
     }
 
