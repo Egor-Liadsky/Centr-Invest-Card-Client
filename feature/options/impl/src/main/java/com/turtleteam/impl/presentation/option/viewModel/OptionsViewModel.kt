@@ -39,6 +39,14 @@ class OptionsViewModel(
         }
     }
 
+    fun leaveAccount() = viewModelScope.launch {
+        settings.setToken(null)
+    }
+
+    fun navigateToWelcome() {
+        navigator.navigateToWelcome()
+    }
+
     fun navigateToAboutApp() {
         navigator.navigateToAboutApp()
     }

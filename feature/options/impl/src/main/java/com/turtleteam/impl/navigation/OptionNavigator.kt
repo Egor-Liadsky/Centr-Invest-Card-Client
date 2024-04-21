@@ -16,6 +16,12 @@ class OptionNavigator (
         }
     }
 
+    fun navigateToWelcome() {
+        navController.navigate("account/welcome") {
+            launchSingleTop = true
+        }
+    }
+
     fun navigateToFeedback() {
         navController.navigate("$baseRoute/feedback") {
             launchSingleTop = true

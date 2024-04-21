@@ -112,7 +112,7 @@ fun OptionsScreen(
                     bottom = 30.dp
                 ),
                 rememberAsyncImagePainter(model = "https://yt3.googleusercontent.com/ytc/AIf8zZRKWtfS9EmKT96JGBh745BtyAoplTC-k6TIaIdVWg=s900-c-k-c0x00ffffff-no-rj"),
-                fullname = "${state.userData.name} ${state.userData.family} \n${state.userData.two_name}"
+                fullname = "${state.userData.family} ${state.userData.name} \n${state.userData.two_name}"
             )
 
             Column(
@@ -181,6 +181,32 @@ fun OptionsScreen(
             }
 
             AdditionalView(viewModel)
+
+            Button(
+                onClick = {
+                    viewModel.leaveAccount()
+                    viewModel.navigateToWelcome()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 20.dp),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF2A2F33)
+                )
+            ) {
+                Text(
+                    text = "Выйти из аккаунта",
+                    style = TextStyle(
+                        fontFamily = FontFamily(Font(R.font.qanelas)),
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp,
+                        color = Color.White
+                    ),
+                    modifier = Modifier.padding(vertical = 10.dp)
+                )
+            }
         }
     }
 }
