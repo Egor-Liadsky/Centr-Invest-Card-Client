@@ -4,9 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ProfileData(
+    val username: String = "",
     val name: String = "",
-    val surname: String = "",
-    val patronymic: String = "",
-    val nickname: String = "",
+    val family: String = "",
+    val two_name: String = "",
     val cash: Float = 0f
 )

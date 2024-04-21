@@ -3,6 +3,7 @@ package com.turtleteam.impl.presentation.home.viewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.turtleteam.api.Settings
+import com.turtleteam.api.api.model.Category
 import com.turtleteam.api.api.model.FullPrivileges
 import com.turtleteam.api.api.repository.HomeRepository
 import com.turtleteam.api.data.api.model.User
@@ -42,9 +43,9 @@ class HomeViewModel(
                         profileService.saveUserProfile(
                             ProfileData(
                                 name = userProfile.name,
-                                surname = userProfile.surname,
-                                patronymic = userProfile.patronymic,
-                                nickname = userProfile.username,
+                                family = userProfile.surname,
+                                two_name = userProfile.patronymic,
+                                username = userProfile.username,
                                 cash = userProfile.cash
                             )
                         )
@@ -60,11 +61,19 @@ class HomeViewModel(
                             }.getOrNull()
                         }
 
-                        val cards = async { homeRepository.getCards(settings.getToken() ?: "") }
+                        val serviceHistory = homeRepository.getServiceHistory(token)
+
+                        val categories = homeRepository.getCategories()
+
+                        val cards = async { homeRepository.getCards(token) }
                         _state.update {
                             it.copy(
                                 cards = cards.await(), user = user.await(),
-                                cardLoadingState = LoadingState.Success
+                                categories = categories,
+                                serviceHistory = serviceHistory,
+                                cardLoadingState = LoadingState.Success,
+                                categoriesLoadingState = LoadingState.Success,
+                                serviceLoadingState = LoadingState.Success
                             )
                         }
                     },
@@ -81,42 +90,8 @@ class HomeViewModel(
         navigator.navigateToDetailCard(cardId)
     }
 
-    fun getPrivileges() {
-        viewModelScope.launch(Dispatchers.IO) {
-            exceptionHandleable(
-                executionBlock = {
-                    val user_privilege =
-                        state.value.cards?.get(0)?.key?.let { homeRepository.getPrivileges(it) }
-
-                    val all_privileges = homeRepository.getAllPrivileges()
-
-                    val arr = mutableListOf<FullPrivileges>()
-
-                    all_privileges.forEach { all ->
-                        user_privilege?.result?.forEach { user ->
-                            if (user == all.privileges_prefix) {
-                                arr.add(all)
-                            }
-                        }
-                    }
-
-                    _state.update {
-                        it.copy(
-                            privileges = arr,
-                            privilegesLoadingState = LoadingState.Success
-                        )
-                    }
-                },
-                failureBlock = {
-                    errorService.showError("Ошибка с соединением ")
-                    _state.update { it.copy(privilegesLoadingState = LoadingState.Error("")) }
-                }
-            )
-        }
-    }
-
-    fun onSelectServiceClick(service: Services) {
-        _state.update { it.copy(selectedService = service) }
+    fun onPrivilegesClick(category: Category) {
+        _state.update { it.copy(selectedPrivileges = category) }
     }
 }
 

@@ -2,7 +2,9 @@ package com.turtleteam.impl.data.api.repository
 
 import com.turtleteam.api.Settings
 import com.turtleteam.api.api.model.Card
+import com.turtleteam.api.api.model.Category
 import com.turtleteam.api.api.model.FullPrivileges
+import com.turtleteam.api.api.model.Service
 import com.turtleteam.api.api.model.ShortPrivileges
 import com.turtleteam.api.api.model.UserProfile
 import com.turtleteam.api.api.model.UserProfileResponse
@@ -17,6 +19,32 @@ import org.koin.core.component.inject
 class HomeRepositoryImpl(httpClient: HttpClient) : HomeRepository, BaseRepository(httpClient),
     KoinComponent {
     val settings: Settings by inject()
+    override suspend fun getServiceHistory(token: String): List<Service> {
+        val response = executeCall(
+            type = HttpMethod.Get,
+            path = "user/cash/history",
+            headers = mapOf(
+                "Content-Type" to "application/json",
+                "Accept" to "application/json",
+            ),
+            parameters = mapOf(
+                "user_token" to token
+            )
+        )
+        return Json.decodeFromString(response)
+    }
+
+    override suspend fun getCategories(): List<Category> {
+        val response = executeCall(
+            type = HttpMethod.Get,
+            path = "user/category/all",
+            headers = mapOf(
+                "Content-Type" to "application/json",
+                "Accept" to "application/json",
+            ),
+        )
+        return Json.decodeFromString(response)
+    }
 
     override suspend fun getProfile(token: String): UserProfile {
         val response = executeCall(

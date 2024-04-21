@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(project(":feature:options:api"))
+    implementation(project(":buildLogic:api"))
     implementation(project(":feature:account:api"))
     implementation(project(":feature:settings:api"))
     implementation(project(Modules.core_navigation))

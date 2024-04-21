@@ -108,7 +108,7 @@ fun OptionsScreen(
                     bottom = 30.dp
                 ),
                 rememberAsyncImagePainter(model = "https://yt3.googleusercontent.com/ytc/AIf8zZRKWtfS9EmKT96JGBh745BtyAoplTC-k6TIaIdVWg=s900-c-k-c0x00ffffff-no-rj"),
-                fullname = "${state.userData.name} ${state.userData.surname} \n ${state.userData.patronymic}"
+                fullname = "${state.userData.name} ${state.userData.family} \n ${state.userData.two_name}"
             )
 
             Column(

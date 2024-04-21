@@ -22,14 +22,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R
+import com.turtleteam.core_view.models.ServiceHistory
+import com.turtleteam.core_view.utils.categoryIcon
 
 @Composable
 fun ServiceHistoryItemView(
     modifier: Modifier = Modifier,
-    title: String,
-    description: String,
-    history: String,
-    icon: Int,
+    service: ServiceHistory
 ) {
 
     Card(
@@ -48,15 +47,16 @@ fun ServiceHistoryItemView(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
+
                 Image(
-                    painter = painterResource(id = icon),
+                    painter = painterResource(id = service.category_id.categoryIcon()),
                     contentDescription = null,
                     modifier = Modifier.size(30.dp)
                 )
 
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     Text(
-                        text = title,
+                        text = service.reason,
                         style = TextStyle(
                             fontFamily = FontFamily(Font(R.font.qanelas)),
                             fontSize = 14.sp,
@@ -65,17 +65,7 @@ fun ServiceHistoryItemView(
                         ),
                     )
                     Text(
-                        text = description,
-                        style = TextStyle(
-                            fontFamily = FontFamily(Font(R.font.qanelas)),
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight(600),
-                            color = Color(0xFF919191)
-                        ),
-                    )
-
-                    Text(
-                        text = history,
+                        text = service.date,
                         style = TextStyle(
                             fontFamily = FontFamily(Font(R.font.qanelas)),
                             fontSize = 12.sp,
@@ -87,7 +77,7 @@ fun ServiceHistoryItemView(
             }
 
             Text(
-                text = "30 ₽",
+                text = "${service.price.toInt()} ₽",
                 style = TextStyle(
                     fontFamily = FontFamily(Font(R.font.qanelas)),
                     fontSize = 14.sp,

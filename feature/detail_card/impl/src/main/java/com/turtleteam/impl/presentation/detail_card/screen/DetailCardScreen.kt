@@ -46,6 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.turtleteam.core_view.R
+import com.turtleteam.core_view.models.ServiceHistory
 import com.turtleteam.core_view.view.cards.DetailCardInfo
 import com.turtleteam.core_view.view.cards.ServiceHistoryItemView
 import com.turtleteam.core_view.view.hiddenDate
@@ -87,7 +88,7 @@ fun DetailCardScreen(
             }
 
             DetailCardInfo(
-                owner = "${state.value.userData.name} ${state.value.userData.surname}",
+                owner = "${state.value.userData.name} ${state.value.userData.family}",
                 cash = state.value.userData.cash,
                 modifier = Modifier
                     .fillMaxSize()
@@ -149,10 +150,13 @@ fun DetailCardScreen(
 
             items(items = state.value.serviceHistory ?: listOf()) { service ->
                 ServiceHistoryItemView(
-                    title = service.reason,
-                    description = service.date,
-                    history = service.price.toString(),
-                    icon = R.drawable.ic_privileges
+                    service = ServiceHistory(
+                        date = service.dateTime,
+                        price = service.price,
+                        reason = service.reason,
+                        inn = service.inn,
+                        category_id = service.category_id
+                    )
                 )
             }
         }
