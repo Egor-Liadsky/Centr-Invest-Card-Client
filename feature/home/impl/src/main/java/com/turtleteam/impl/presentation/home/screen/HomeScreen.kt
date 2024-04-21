@@ -170,9 +170,9 @@ fun HomeScreen(
                 }
             }) {
 
-            Refreshable(
-                isRefreshing = state.value.isRefreshing,
-                onRefresh = { viewModel.getPrivileges() }) {
+//            Refreshable(
+//                isRefreshing = state.value.isRefreshing,
+//                onRefresh = { viewModel.getPrivileges() }) {
 
                 LazyColumn(
                     modifier = Modifier
@@ -231,7 +231,7 @@ fun HomeScreen(
                         LoadingState.Empty -> TODO()
                     }
                 }
-            }
+//            }
         }
     }
 }
