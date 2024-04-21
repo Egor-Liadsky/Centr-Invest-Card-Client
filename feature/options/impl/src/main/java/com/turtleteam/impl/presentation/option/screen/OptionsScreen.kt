@@ -68,7 +68,6 @@ fun OptionsScreen(
 
     var emailText by rememberSaveable { mutableStateOf(state.user?.auth_hash ?: "") }
     var passwordText by rememberSaveable { mutableStateOf("") }
-    var pinCodeText by rememberSaveable { mutableStateOf("") }
 
     // FIXME FROM VIEWMODEL
     var isPasswordHidden by remember { mutableStateOf(true) }
@@ -79,9 +78,6 @@ fun OptionsScreen(
     Column(
         Modifier
             .fillMaxSize()
-            .clipToBounds()
-            .then(modifier)
-            .verticalScroll(scrollState)
             .padding(bottom = 16.dp)
     ) {
 
@@ -92,103 +88,111 @@ fun OptionsScreen(
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 20.sp,
                 color = Color(0xFF2A2F33)
-            ), modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp)
-        )
-
-
-        // FIXME FROM VIEWMODEL
-        UserInfoLayout(
-            modifier = Modifier.padding(
-                horizontal = 16.dp,
-                vertical = 30.dp
-            ),
-            rememberAsyncImagePainter(model = "https://yt3.googleusercontent.com/ytc/AIf8zZRKWtfS9EmKT96JGBh745BtyAoplTC-k6TIaIdVWg=s900-c-k-c0x00ffffff-no-rj"),
-            fullname = "Лядский\nЕгор Алексеевич"
+            ), modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 16.dp)
         )
 
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .border(1.dp, Color(0xFFD9D9D9), RoundedCornerShape(10.dp))
-                .padding(horizontal = 16.dp, vertical = 20.dp),
+            Modifier
+                .fillMaxSize()
+                .clipToBounds()
+                .then(modifier)
+                .verticalScroll(scrollState)
         ) {
-            Text(
-                text = "Аккаунт",
-                color = Color.Black,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-            Text(
-                modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
-                text = "Email",
-                color = Color(0xFFA7ACAF),
-                fontSize = 12.sp
-            )
-            OptionsTextField(
-                value = emailText,
-                style = textFieldStyle,
-                onValueChange = {
-                    emailText = it
-                }
-            )
-            Text(
-                modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
-                text = "Пароль",
-                color = Color(0xFFA7ACAF),
-                fontSize = 12.sp
-            )
-            OptionsTextField(
-                value = passwordText,
-                style = textFieldStyle,
-                isHidden = isPasswordHidden,
-                onHideClick = { isPasswordHidden = !isPasswordHidden },
-                onValueChange = {
-                    passwordText = it
-                },
-            )
-            Text(
-                modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
-                text = "PIN-CODE",
-                color = Color(0xFFA7ACAF),
-                fontSize = 12.sp
-            )
-            OptionsTextField(
-                value = pinCodeText,
-                style = textFieldStyle,
-                isHidden = isPinCodeHidden,
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                onHideClick = { isPinCodeHidden = !isPinCodeHidden },
-                onValueChange = {
-                    pinCodeText = it
-                }
-            )
-        }
 
-        Button(
-            onClick = { },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .padding(top = 20.dp),
-            shape = RoundedCornerShape(10.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF2A2F33)
-            )
-        ) {
-            Text(
-                text = "Привязать страховой полис",
-                style = TextStyle(
-                    fontFamily = FontFamily(Font(R.font.qanelas)),
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp,
-                    color = Color.White
+
+            // FIXME FROM VIEWMODEL
+            UserInfoLayout(
+                modifier = Modifier.padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    bottom = 30.dp
                 ),
-                modifier = Modifier.padding(vertical = 10.dp)
+                rememberAsyncImagePainter(model = "https://yt3.googleusercontent.com/ytc/AIf8zZRKWtfS9EmKT96JGBh745BtyAoplTC-k6TIaIdVWg=s900-c-k-c0x00ffffff-no-rj"),
+                fullname = "${state.userData.name} ${state.userData.surname} \n ${state.userData.patronymic}"
             )
-        }
 
-        AdditionalView(viewModel)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .border(1.dp, Color(0xFFD9D9D9), RoundedCornerShape(10.dp))
+                    .padding(horizontal = 16.dp, vertical = 20.dp),
+            ) {
+                Text(
+                    text = "Аккаунт",
+                    color = Color.Black,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Text(
+                    modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
+                    text = "Email",
+                    color = Color(0xFFA7ACAF),
+                    fontSize = 12.sp
+                )
+                OptionsTextField(
+                    value = emailText,
+                    style = textFieldStyle,
+                    onValueChange = {
+                        emailText = it
+                    }
+                )
+                Text(
+                    modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
+                    text = "Пароль",
+                    color = Color(0xFFA7ACAF),
+                    fontSize = 12.sp
+                )
+                OptionsTextField(
+                    value = passwordText,
+                    style = textFieldStyle,
+                    isHidden = isPasswordHidden,
+                    onHideClick = { isPasswordHidden = !isPasswordHidden },
+                    onValueChange = {
+                        passwordText = it
+                    },
+                )
+                Text(
+                    modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
+                    text = "PIN-CODE",
+                    color = Color(0xFFA7ACAF),
+                    fontSize = 12.sp
+                )
+                OptionsTextField(
+                    value = state.pinCode ?: "",
+                    style = textFieldStyle,
+                    isHidden = !isPinCodeHidden,
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    onHideClick = { isPinCodeHidden = !isPinCodeHidden },
+                    onValueChange = {}
+                )
+            }
+
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 20.dp),
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF2A2F33)
+                )
+            ) {
+                Text(
+                    text = "Привязать страховой полис",
+                    style = TextStyle(
+                        fontFamily = FontFamily(Font(R.font.qanelas)),
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp,
+                        color = Color.White
+                    ),
+                    modifier = Modifier.padding(vertical = 10.dp)
+                )
+            }
+
+            AdditionalView(viewModel)
+        }
     }
 }
 
