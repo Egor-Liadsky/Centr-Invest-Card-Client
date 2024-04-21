@@ -1,6 +1,8 @@
 package com.turtleteam.impl.presentation.option.screen
 
 import AdditionalView
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -41,6 +43,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -65,6 +68,11 @@ fun OptionsScreen(
     val state by viewModel.state.collectAsState()
 
     val textFieldStyle = TextStyle(fontSize = 16.sp)
+    val context = LocalContext.current
+    val intent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse("https://www.gosuslugi.ru/help/faq/health_miniapp_VK/7600420")
+    )
 
     // FIXME FROM VIEWMODEL
     var isPinCodeHidden by remember { mutableStateOf(true) }
@@ -148,7 +156,9 @@ fun OptionsScreen(
             }
 
             Button(
-                onClick = { },
+                onClick = {
+                    context.startActivity(intent)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
