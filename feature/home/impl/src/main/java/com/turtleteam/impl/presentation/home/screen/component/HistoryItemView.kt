@@ -29,6 +29,7 @@ import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_view.R
 import com.turtleteam.core_view.models.ServiceHistory
 import com.turtleteam.core_view.view.cards.ServiceHistoryItemView
+import com.turtleteam.core_view.view.layout.EmptyLayout
 
 @Composable
 fun HistorySheetLayout(
@@ -39,7 +40,7 @@ fun HistorySheetLayout(
     icon: Int
 ) {
 
-    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
 
         Divider(
             Modifier
@@ -48,7 +49,7 @@ fun HistorySheetLayout(
                 .width(22.dp), color = Color(0xFF9E9C9F), thickness = 2.dp
         )
 
-        LazyColumn {
+        LazyColumn(Modifier.fillMaxSize()) {
             item {
                 Text(
                     modifier = Modifier
@@ -64,26 +65,48 @@ fun HistorySheetLayout(
                 )
             }
 
-            if (loadingState == LoadingState.Loading) {
-                item {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator(
-                            Modifier.size(24.dp),
-                            color = Color(0xFF04659C)
-                        )
+            item {
+
+                when (loadingState) {
+                    LoadingState.Empty -> {
+                        EmptyLayout(Modifier.fillMaxSize())
                     }
-                }
-            } else {
-                items(items = data) { service ->
-                    ServiceHistoryItemView(
-                        service = ServiceHistory(
-                            date = service.dateTime,
-                            price = service.price,
-                            reason = service.reason,
-                            inn = service.inn,
-                            category_id = service.category_id
-                        )
-                    )
+
+                    is LoadingState.Error -> TODO()
+                    LoadingState.Loading -> {
+                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator(
+                                Modifier.size(24.dp),
+                                color = Color(0xFF04659C)
+                            )
+                        }
+                    }
+
+                    LoadingState.Success -> {
+
+                        if (data.isEmpty()) {
+                            Box(
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(top = 120.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                EmptyLayout(Modifier.fillMaxSize())
+                            }
+                        }
+
+                        data.forEach { service ->
+                            ServiceHistoryItemView(
+                                service = ServiceHistory(
+                                    date = service.dateTime,
+                                    price = service.price,
+                                    reason = service.reason,
+                                    inn = service.inn,
+                                    category_id = service.category_id
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }

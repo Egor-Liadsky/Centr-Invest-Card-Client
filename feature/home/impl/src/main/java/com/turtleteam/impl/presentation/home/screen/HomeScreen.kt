@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,7 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.TextButton
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -30,7 +28,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -48,13 +45,11 @@ import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_view.R
 import com.turtleteam.core_view.R.drawable
 import com.turtleteam.core_view.utils.categoryIcon
-import com.turtleteam.core_view.view.PageIndicator
 import com.turtleteam.core_view.view.cards.DetailCardInfo
 import com.turtleteam.core_view.view.cards.EmptyCardInfo
 import com.turtleteam.impl.presentation.home.screen.component.HistorySheetLayout
 import com.turtleteam.impl.presentation.home.screen.component.ServiceItemView
 import com.turtleteam.impl.presentation.home.viewModel.HomeViewModel
-import com.turtleteam.impl.presentation.home.viewModel.Services
 import kotlinx.coroutines.launch
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy

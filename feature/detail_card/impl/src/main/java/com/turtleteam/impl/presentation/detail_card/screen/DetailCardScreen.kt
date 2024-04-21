@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -51,6 +52,7 @@ import com.turtleteam.core_view.view.cards.DetailCardInfo
 import com.turtleteam.core_view.view.cards.ServiceHistoryItemView
 import com.turtleteam.core_view.view.hiddenDate
 import com.turtleteam.core_view.view.hideCardNum
+import com.turtleteam.core_view.view.layout.EmptyLayout
 import com.turtleteam.impl.presentation.detail_card.viewModel.DetailCardViewModel
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -146,6 +148,19 @@ fun DetailCardScreen(
                     lineHeight = 28.sp,
                     fontWeight = FontWeight(600),
                 )
+            }
+
+            if (state.value.serviceHistory?.isEmpty() == true){
+                item {
+                    Box(
+                        Modifier
+                            .fillMaxSize()
+                            .padding(top = 60.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        EmptyLayout(Modifier.fillMaxSize())
+                    }
+                }
             }
 
             items(items = state.value.serviceHistory ?: listOf()) { service ->
