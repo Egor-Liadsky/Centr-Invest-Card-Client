@@ -5,6 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.turtleteam.api.Settings
 import com.turtleteam.api.data.api.model.User
 import com.turtleteam.api.data.api.repository.DetailCardRepository
+import com.turtleteam.core_navigation.error.ErrorService
+import com.turtleteam.core_navigation.state.LoadingState
+import com.turtleteam.core_network.error.exceptionHandleable
 import com.turtleteam.impl.navigation.DetailCardNavigator
 import com.turtleteam.impl.presentation.detail_card.state.DetailCardState
 import com.whatrushka.api.profile.ProfileService
@@ -23,7 +26,8 @@ class DetailCardViewModel(
 ): ViewModel(), KoinComponent {
 
     private val detailCardRepository: DetailCardRepository by inject()
-    val profileService: ProfileService by inject()
+    private val profileService: ProfileService by inject()
+    private val errorService: ErrorService by inject()
 
     private val _state = MutableStateFlow(DetailCardState(
         limitBegin = 100,
@@ -42,7 +46,29 @@ class DetailCardViewModel(
                 }.getOrNull()
 
             val serviceHistory = detailCardRepository.getServiceHistory(settings.getToken() ?: "")
-            _state.update { it.copy(user = user, serviceHistory = serviceHistory) }
+            _state.update { it.copy(user = user, serviceHistory = serviceHistory, serviceHistoryLoadingState = LoadingState.Success) }
+        }
+    }
+
+    fun getServiceHistory() {
+        viewModelScope.launch(Dispatchers.IO) {
+            exceptionHandleable(
+                executionBlock = {
+                    _state.update { it.copy(isRefreshing = true) }
+                    val serviceHistory = detailCardRepository.getServiceHistory(settings.getToken() ?: "")
+                    _state.update { it.copy(serviceHistory = serviceHistory, serviceHistoryLoadingState = LoadingState.Success) }
+                },
+                failureBlock = {
+                    errorService.showError("Ошибка с соединением ")
+                },
+                completionBlock = {
+                    _state.update {
+                        it.copy(
+                            isRefreshing = false,
+                        )
+                    }
+                }
+            )
         }
     }
 

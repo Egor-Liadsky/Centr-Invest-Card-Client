@@ -111,7 +111,7 @@ fun OptionsScreen(
                     end = 16.dp,
                     bottom = 30.dp
                 ),
-                rememberAsyncImagePainter(model = "https://yt3.googleusercontent.com/ytc/AIf8zZRKWtfS9EmKT96JGBh745BtyAoplTC-k6TIaIdVWg=s900-c-k-c0x00ffffff-no-rj"),
+                image = R.drawable.ic_ava,
                 fullname = "${state.userData.family} ${state.userData.name} \n${state.userData.two_name}"
             )
 
@@ -130,7 +130,7 @@ fun OptionsScreen(
                 )
                 Text(
                     modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
-                    text = "Email",
+                    text = "Логин",
                     color = Color(0xFFA7ACAF),
                     fontSize = 12.sp
                 )
@@ -308,7 +308,7 @@ fun TextLayout(
 @Composable
 fun UserInfoLayout(
     modifier: Modifier,
-    imgPainter: AsyncImagePainter,
+    image: Int,
     fullname: String
 ) {
     Row(
@@ -320,7 +320,7 @@ fun UserInfoLayout(
             modifier = Modifier
                 .size(78.dp)
                 .clip(CircleShape),
-            painter = imgPainter, contentDescription = ""
+            painter = painterResource(id = image), contentDescription = ""
         )
         Text(
             text = fullname,

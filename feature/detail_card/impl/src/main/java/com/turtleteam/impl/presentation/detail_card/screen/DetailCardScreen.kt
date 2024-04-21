@@ -21,6 +21,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -46,6 +47,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.turtleteam.core_navigation.state.LoadingState
 import com.turtleteam.core_view.R
 import com.turtleteam.core_view.models.ServiceHistory
 import com.turtleteam.core_view.view.cards.DetailCardInfo
@@ -53,6 +55,7 @@ import com.turtleteam.core_view.view.cards.ServiceHistoryItemView
 import com.turtleteam.core_view.view.hiddenDate
 import com.turtleteam.core_view.view.hideCardNum
 import com.turtleteam.core_view.view.layout.EmptyLayout
+import com.turtleteam.core_view.view.layout.Refreshable
 import com.turtleteam.impl.presentation.detail_card.viewModel.DetailCardViewModel
 import me.onebone.toolbar.CollapsingToolbarScaffold
 import me.onebone.toolbar.ScrollStrategy
@@ -105,74 +108,90 @@ fun DetailCardScreen(
 
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White, RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-                .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
-            contentPadding = PaddingValues(vertical = 24.dp)
-        ) {
+        Refreshable(
+            isRefreshing = state.value.isRefreshing,
+            onRefresh = { viewModel.getServiceHistory() }) {
 
-            item {
-                Button(
-                    onClick = { context.startActivity(intent) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .padding(horizontal = 16.dp),
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF2A2F33)
-                    )
-                ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White, RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
+                    .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
+                contentPadding = PaddingValues(vertical = 24.dp)
+            ) {
+
+                item {
+                    Button(
+                        onClick = { context.startActivity(intent) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
+                            .padding(horizontal = 16.dp),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF2A2F33)
+                        )
+                    ) {
+                        Text(
+                            text = "Пополнить",
+                            style = TextStyle(
+                                fontFamily = FontFamily(Font(R.font.qanelas)),
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 14.sp,
+                                color = Color.White
+                            )
+                        )
+                    }
+                }
+
+                item {
                     Text(
-                        text = "Пополнить",
-                        style = TextStyle(
-                            fontFamily = FontFamily(Font(R.font.qanelas)),
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 14.sp,
-                            color = Color.White
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .padding(top = 30.dp),
+                        text = "История операций",
+                        fontFamily = FontFamily(Font(R.font.qanelas)),
+                        fontSize = 16.sp,
+                        lineHeight = 28.sp,
+                        fontWeight = FontWeight(600),
+                    )
+                }
+
+                if (state.value.serviceHistory?.isEmpty() == true) {
+                    item {
+                        Box(
+                            Modifier
+                                .fillMaxSize()
+                                .padding(top = 60.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            EmptyLayout(Modifier.fillMaxSize())
+                        }
+                    }
+                }
+
+                if (state.value.serviceHistoryLoadingState == LoadingState.Loading) {
+                    item {
+                        Box(Modifier.fillMaxSize().padding(top = 36.dp), contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator(
+                                Modifier.size(24.dp),
+                                color = Color(0xFF2A2F33)
+                            )
+                        }
+                    }
+                }
+
+                items(items = state.value.serviceHistory ?: listOf()) { service ->
+                    ServiceHistoryItemView(
+                        service = ServiceHistory(
+                            date = service.dateTime,
+                            price = service.price,
+                            reason = service.reason,
+                            inn = service.inn,
+                            category_id = service.category_id
                         )
                     )
                 }
-            }
-
-            item {
-                Text(
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .padding(top = 30.dp),
-                    text = "История операций",
-                    fontFamily = FontFamily(Font(R.font.qanelas)),
-                    fontSize = 16.sp,
-                    lineHeight = 28.sp,
-                    fontWeight = FontWeight(600),
-                )
-            }
-
-            if (state.value.serviceHistory?.isEmpty() == true){
-                item {
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                            .padding(top = 60.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        EmptyLayout(Modifier.fillMaxSize())
-                    }
-                }
-            }
-
-            items(items = state.value.serviceHistory ?: listOf()) { service ->
-                ServiceHistoryItemView(
-                    service = ServiceHistory(
-                        date = service.dateTime,
-                        price = service.price,
-                        reason = service.reason,
-                        inn = service.inn,
-                        category_id = service.category_id
-                    )
-                )
             }
         }
     }
