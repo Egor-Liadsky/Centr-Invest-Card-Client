@@ -88,7 +88,7 @@ fun DetailCardScreen(
             }
 
             DetailCardInfo(
-                owner = "${state.value.userData.name} ${state.value.userData.surname}",
+                owner = "${state.value.userData.name} ${state.value.userData.family}",
                 cash = state.value.userData.cash,
                 modifier = Modifier
                     .fillMaxSize()

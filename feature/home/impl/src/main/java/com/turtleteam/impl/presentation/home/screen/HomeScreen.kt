@@ -130,7 +130,7 @@ fun HomeScreen(
                     ) {
                         if (state.value.cards?.size != 0) {
                             DetailCardInfo(
-                                owner = "${state.value.userProfile.name} ${state.value.userProfile.surname}",
+                                owner = "${state.value.userProfile.name} ${state.value.userProfile.family}",
                                 cash = state.value.userProfile.cash,
                                 modifier = Modifier
                                     .align(Alignment.CenterHorizontally)
@@ -144,8 +144,8 @@ fun HomeScreen(
                         } else {
                             EmptyCardInfo(
                                 modifier = Modifier
-                                    .align(Alignment.CenterHorizontally)
                                     .fillMaxWidth()
+                                    .align(Alignment.CenterHorizontally)
                                     .padding(horizontal = 24.dp),
                             )
                         }
@@ -167,7 +167,7 @@ fun HomeScreen(
                     )
                     Text(
                         modifier = Modifier.padding(start = 10.dp),
-                        text = "${state.value.userProfile.name} ${state.value.userProfile.surname}",
+                        text = "${state.value.userProfile.name} ${state.value.userProfile.family}",
                         fontSize = 20.sp,
                         fontWeight = FontWeight(600),
                         color = Color.White

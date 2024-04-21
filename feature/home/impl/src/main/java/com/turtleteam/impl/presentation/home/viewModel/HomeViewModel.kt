@@ -43,9 +43,9 @@ class HomeViewModel(
                         profileService.saveUserProfile(
                             ProfileData(
                                 name = userProfile.name,
-                                surname = userProfile.surname,
-                                patronymic = userProfile.patronymic,
-                                nickname = userProfile.username,
+                                family = userProfile.surname,
+                                two_name = userProfile.patronymic,
+                                username = userProfile.username,
                                 cash = userProfile.cash
                             )
                         )
