@@ -272,11 +272,11 @@ fun RegisterScreen(
                             focusManager.clearFocus()
                             viewModel.onRegisterClick(
                                 UserDTOReceive(
-                                    state.value.lastNameText,
-                                    state.value.firstNameText,
-                                    state.value.surnameText,
-                                    state.value.loginText,
-                                    state.value.passwordText
+                                    lastName = state.value.lastNameText,
+                                    firstName = state.value.firstNameText,
+                                    surname = state.value.surnameText,
+                                    username = state.value.loginText,
+                                    password = state.value.passwordText
                                 )
                             )
                         },

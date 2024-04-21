@@ -1,5 +1,6 @@
 package com.turtleteam.impl.presentation.register.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.turtleteam.api.Settings
@@ -65,7 +66,8 @@ class RegisterViewModel(
                         if (!hasEmptyFields()) {
                            val response = accountService.registerUser(user)
                             settings.setToken(response.auth_hash)
-                            val userJson = Json.encodeToString(user)
+                            val userJson = Json.encodeToString(response)
+                            Log.d("m", userJson)
                             settings.setUser(userJson)
                             withContext(Dispatchers.Main) {
                                 navigator.navigateToPincode()

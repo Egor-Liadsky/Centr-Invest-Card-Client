@@ -66,11 +66,7 @@ fun OptionsScreen(
 
     val textFieldStyle = TextStyle(fontSize = 16.sp)
 
-    var emailText by rememberSaveable { mutableStateOf(state.user?.auth_hash ?: "") }
-    var passwordText by rememberSaveable { mutableStateOf("") }
-
     // FIXME FROM VIEWMODEL
-    var isPasswordHidden by remember { mutableStateOf(true) }
     var isPinCodeHidden by remember { mutableStateOf(true) }
 
     val scrollState = rememberScrollState()
@@ -108,7 +104,7 @@ fun OptionsScreen(
                     bottom = 30.dp
                 ),
                 rememberAsyncImagePainter(model = "https://yt3.googleusercontent.com/ytc/AIf8zZRKWtfS9EmKT96JGBh745BtyAoplTC-k6TIaIdVWg=s900-c-k-c0x00ffffff-no-rj"),
-                fullname = "${state.userData.name} ${state.userData.family} \n ${state.userData.two_name}"
+                fullname = "${state.userData.name} ${state.userData.family} \n${state.userData.two_name}"
             )
 
             Column(
@@ -131,26 +127,9 @@ fun OptionsScreen(
                     fontSize = 12.sp
                 )
                 OptionsTextField(
-                    value = emailText,
+                    value = state.userData.username,
                     style = textFieldStyle,
-                    onValueChange = {
-                        emailText = it
-                    }
-                )
-                Text(
-                    modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
-                    text = "Пароль",
-                    color = Color(0xFFA7ACAF),
-                    fontSize = 12.sp
-                )
-                OptionsTextField(
-                    value = passwordText,
-                    style = textFieldStyle,
-                    isHidden = isPasswordHidden,
-                    onHideClick = { isPasswordHidden = !isPasswordHidden },
-                    onValueChange = {
-                        passwordText = it
-                    },
+                    onValueChange = {}
                 )
                 Text(
                     modifier = Modifier.padding(top = 20.dp, bottom = 5.dp),
