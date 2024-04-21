@@ -144,15 +144,6 @@ fun EmptyCardInfo(
             .then(modifier)
             .height(194.dp)
             .clip(RoundedCornerShape(10.dp))
-            .drawBehind {
-                drawCircle(
-                    color = Color(0xFF049C6B),
-                    center = Offset(y = size.height * 1.5f, x = size.width * 0.3f),
-                    radius = 800f,
-                    blendMode = BlendMode.Overlay
-                )
-            }
-
     ) {
 
         Image(
