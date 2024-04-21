@@ -76,15 +76,17 @@ fun ServiceHistoryItemView(
                 }
             }
 
-            Text(
-                text = "${service.price.toInt()} ₽",
-                style = TextStyle(
-                    fontFamily = FontFamily(Font(R.font.qanelas)),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight(600),
-                    color = Color(0xFF2A2F33)
-                ),
-            )
+            if (service.price.toInt() != 0) {
+                Text(
+                    text = "${service.price.toInt()} ₽",
+                    style = TextStyle(
+                        fontFamily = FontFamily(Font(R.font.qanelas)),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight(600),
+                        color = Color(0xFF2A2F33)
+                    ),
+                )
+            }
         }
     }
 }

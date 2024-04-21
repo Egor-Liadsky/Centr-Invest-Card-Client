@@ -93,9 +93,46 @@ class HomeViewModel(
     fun onPrivilegesClick(category: Category) {
         _state.update { it.copy(selectedPrivileges = category) }
     }
-}
 
-enum class Services {
-    Medical,
-    Privileges
+    fun getPrivileges() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val token = settings.getToken()
+            if (token != null) {
+                exceptionHandleable(
+                    executionBlock = {
+
+                        _state.update {
+                            it.copy(
+                                isRefreshing = true,
+                                categoriesLoadingState = LoadingState.Loading,
+                                serviceLoadingState = LoadingState.Loading
+                            )
+                        }
+                        val serviceHistory = homeRepository.getServiceHistory(token)
+                        val categories = homeRepository.getCategories()
+                        _state.update {
+                            it.copy(
+                                isRefreshing = false,
+                                categories = categories,
+                                serviceHistory = serviceHistory,
+                                categoriesLoadingState = LoadingState.Success,
+                                serviceLoadingState = LoadingState.Success
+                            )
+                        }
+                    },
+                    failureBlock = {
+                        errorService.showError("Ошибка с соединением ")
+                        _state.update { it.copy(cardLoadingState = LoadingState.Error("")) }
+                    },
+                    completionBlock = {
+                        _state.update {
+                            it.copy(
+                                isRefreshing = false,
+                            )
+                        }
+                    }
+                )
+            }
+        }
+    }
 }
